@@ -1,6 +1,7 @@
-package com.example.dripchipsystem.repo;
+package com.example.dripchipsystem.repo.impl;
 
 import com.example.dripchipsystem.model.Account;
+import com.example.dripchipsystem.repo.AccountRepositoryCustom;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -22,13 +23,13 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
 
         List<Predicate> predicates = new ArrayList<>();
         if (firstName != null) {
-            predicates.add(cb.like(accountRoot.get("firstName"), "%" + firstName + "%"));
+            predicates.add(cb.like(cb.upper(accountRoot.get("firstName")), "%" + firstName.toUpperCase() + "%"));
         }
         if (lastName != null) {
-            predicates.add(cb.like(accountRoot.get("lastName"), "%" + lastName + "%"));
+            predicates.add(cb.like(cb.upper(accountRoot.get("lastName")), "%" + lastName.toUpperCase() + "%"));
         }
         if (email != null) {
-            predicates.add(cb.like(accountRoot.get("email"), "%" + email + "%"));
+            predicates.add(cb.like(cb.upper(accountRoot.get("email")), "%" + email.toUpperCase() + "%"));
         }
         Order order = cb.asc(accountRoot.get("id"));
 
