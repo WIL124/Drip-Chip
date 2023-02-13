@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountDto {
+public class AccountDto implements Dto {
     @NotNull
     @NotBlank
     private String firstname;

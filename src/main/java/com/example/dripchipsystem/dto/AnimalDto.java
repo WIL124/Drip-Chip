@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnimalDto {
+public class AnimalDto implements Dto{
     private Long id;
 }

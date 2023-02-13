@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 
 @ControllerAdvice
@@ -17,5 +18,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     protected String handle(ConstraintViolationException ex) {
         return ex.getLocalizedMessage();
+    }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    @ExceptionHandler(EntityNotFoundException.class)
+    protected String handle(EntityNotFoundException ex) {
+        return ex.getMessage();
     }
 }

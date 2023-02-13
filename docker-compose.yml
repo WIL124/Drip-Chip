@@ -3,15 +3,17 @@ services:
   # Сервис для разворачивания контейнера с базой данных
   database:
     image: postgres:latest
+    hostname: database
     volumes:
     - /var/lib/postgresql/data/
     environment:
       - POSTGRES_DB=animal-chipization
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
   # Сервис для разворачивания контейнера с приложением
   webapi:
     image: openjdk:11-jdk
+    hostname: webapi
     ports:
       - "8080:8080"
     depends_on:
@@ -20,9 +22,9 @@ services:
       - ./target/Drip-Chip-System-0.0.1-SNAPSHOT.jar:/opt/service.jar
     command: java -jar /opt/service.jar
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/animal-chipization
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/animal-chipization
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     # Сервис для разворачивания контейнера с автотестами
   tests:
     image: mrexpen/planet_olymp_phase1

@@ -13,10 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Builder
-public class Account {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+public class Account extends AbstractEntity {
     @NotNull
     private String firstName;
     @NotNull
