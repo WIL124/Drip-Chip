@@ -1,6 +1,7 @@
 package com.example.dripchipsystem.service.impl;
 
 import com.example.dripchipsystem.model.Animal;
+import com.example.dripchipsystem.model.Gender;
 import com.example.dripchipsystem.repo.AnimalRepository;
 import com.example.dripchipsystem.service.AbstractService;
 import org.springframework.stereotype.Service;

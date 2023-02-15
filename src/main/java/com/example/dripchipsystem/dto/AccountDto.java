@@ -1,6 +1,8 @@
 package com.example.dripchipsystem.dto;
 
+import com.example.dripchipsystem.model.Account;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +13,9 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountDto implements Dto {
+@Builder
+public class AccountDto implements Dto<Account> {
+    private Long id;
     @NotNull
     @NotBlank
     private String firstname;

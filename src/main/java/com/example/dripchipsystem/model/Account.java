@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,4 +22,7 @@ public class Account extends AbstractEntity {
     @NotNull
     @Column(unique = true)
     private String email;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chipper_id")
+    private List<Animal> chippedAnimals;
 }

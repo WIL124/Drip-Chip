@@ -1,5 +1,7 @@
 package com.example.dripchipsystem.endpoint.impl;
 
+import com.example.dripchipsystem.dto.AnimalDto;
+import com.example.dripchipsystem.dto.Dto;
 import com.example.dripchipsystem.endpoint.AbstractEndpoint;
 import com.example.dripchipsystem.model.Animal;
 import com.example.dripchipsystem.service.impl.AnimalService;
@@ -33,4 +35,10 @@ public class AnimalEndpoint extends AbstractEndpoint<Animal, AnimalService> {
         return service.search(startDateTime, endDateTime,chipperId, chippingLocationId, lifeStatus, gender, from, size);
     }
 
+    @Override
+    protected Dto<Animal> toDto(Animal entity) {
+        return AnimalDto.builder()
+                .id(entity.getId())
+                .build();
+    }
 }

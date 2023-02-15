@@ -1,5 +1,7 @@
 package com.example.dripchipsystem.endpoint.impl;
 
+import com.example.dripchipsystem.dto.AccountDto;
+import com.example.dripchipsystem.dto.Dto;
 import com.example.dripchipsystem.endpoint.AbstractEndpoint;
 import com.example.dripchipsystem.model.Account;
 import com.example.dripchipsystem.service.impl.AccountService;
@@ -25,5 +27,15 @@ public class AccountEndpoint extends AbstractEndpoint<Account, AccountService> {
                          @RequestParam(name = "from", required = false, defaultValue = "0") @Min(0) Integer from,
                          @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
         return service.search(firstName, lastName, email, from, size);
+    }
+
+    @Override
+    protected Dto<Account> toDto(Account entity) {
+        return AccountDto.builder()
+                .id(entity.getId())
+                .firstname(entity.getFirstName())
+                .lastName(entity.getLastName())
+                .email(entity.getEmail())
+                .build();
     }
 }

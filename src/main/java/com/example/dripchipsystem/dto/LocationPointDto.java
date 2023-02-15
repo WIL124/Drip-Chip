@@ -1,6 +1,6 @@
 package com.example.dripchipsystem.dto;
 
-import com.example.dripchipsystem.model.Animal;
+import com.example.dripchipsystem.model.LocationPoint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AnimalDto implements Dto<Animal> {
-    private Long id;
+public class LocationPointDto implements Dto<LocationPoint> {
+    private long id;
+    private double latitude;
+    private double longitude;
 }
