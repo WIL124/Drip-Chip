@@ -1,13 +1,28 @@
 package com.example.dripchipsystem.service.impl;
 
+import com.example.dripchipsystem.dto.impl.LocationPointDto;
+import com.example.dripchipsystem.mapper.impl.LocationPointMapper;
 import com.example.dripchipsystem.model.LocationPoint;
 import com.example.dripchipsystem.repo.LocationRepository;
 import com.example.dripchipsystem.service.AbstractService;
+import com.example.dripchipsystem.service.CommonService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LocationService extends AbstractService<LocationPoint, LocationRepository> {
-    public LocationService(LocationRepository repository) {
-        super(repository);
+public class LocationService
+        extends AbstractService<LocationPoint, LocationRepository, LocationPointMapper, LocationPointDto>
+        implements CommonService<LocationPointDto> {
+    public LocationService(LocationRepository repository, LocationPointMapper locationPointMapper) {
+        super(repository, locationPointMapper);
+    }
+
+    @Override
+    public void updateEntityFromDto(LocationPoint entity, LocationPointDto dto) {
+
+    }
+
+    @Override
+    public LocationPointDto updateEntity(Long id, LocationPointDto dto) {
+        return null;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.dripchipsystem.endpoint.impl;
 
-import com.example.dripchipsystem.dto.AccountDto;
+import com.example.dripchipsystem.dto.AbstractDto;
+import com.example.dripchipsystem.dto.impl.AccountDto;
 import com.example.dripchipsystem.service.impl.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ public class RegistrationEndpoint {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AccountDto registration(@RequestBody @Valid AccountDto registerDto) {
-        return accountService.register(registerDto);
+    public AbstractDto registration(@RequestBody @Valid AccountDto registerDto) {
+        return accountService.create(registerDto);
     }
 }

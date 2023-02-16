@@ -1,32 +1,37 @@
 package com.example.dripchipsystem.service.impl;
 
-import com.example.dripchipsystem.dto.AccountDto;
+import com.example.dripchipsystem.dto.impl.AccountDto;
+import com.example.dripchipsystem.mapper.impl.AccountMapper;
 import com.example.dripchipsystem.model.Account;
 import com.example.dripchipsystem.repo.AccountRepository;
 import com.example.dripchipsystem.service.AbstractService;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
+import com.example.dripchipsystem.service.CommonService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class AccountService extends AbstractService<Account, AccountRepository> implements UserDetailsService {
-    private PasswordEncoder passwordEncoder;
+public class AccountService
+        extends AbstractService<Account, AccountRepository, AccountMapper, AccountDto>
+        implements UserDetailsService, CommonService<AccountDto> {
+    private final PasswordEncoder passwordEncoder;
 
-    public AccountService(AccountRepository repository, PasswordEncoder passwordEncoder) {
-        super(repository);
+    public AccountService(PasswordEncoder passwordEncoder, AccountRepository repository, AccountMapper accountMapper) {
+        super(repository, accountMapper);
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<Account> search(String firstName, String lastName, String email, int from, int size) {
-        return repository.findByFilter(firstName, lastName, email, from, size);
+
+    public List<AccountDto> search(String firstName, String lastName, String email, int from, int size) {
+        return repository.findByFilter(firstName, lastName, email, from, size).stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -36,24 +41,26 @@ public class AccountService extends AbstractService<Account, AccountRepository> 
         return account.get();
     }
 
-    public AccountDto register(AccountDto registerDto) {
-        Account account;
-        try {
-            account = repository.save(fromDto(registerDto));
-        } catch (DataIntegrityViolationException e) {
-            throw new ResponseStatusException(HttpStatus.valueOf(409));
-        }
-        registerDto.setId(account.getId());
-        registerDto.setPassword(null);
-        return registerDto;
+    @Override
+    public void updateEntityFromDto(Account entity, AccountDto dto) {
+
     }
 
-    public Account fromDto(AccountDto dto) {
-        return Account.builder()
-                .firstName(dto.getFirstName())
-                .lastName(dto.getLastName())
-                .email(dto.getEmail())
-                .password(passwordEncoder.encode(dto.getPassword()))
-                .build();
+    @Override
+    public AccountDto updateEntity(Long id, AccountDto dto) {
+        return null;
     }
+
+//    public AccountDto register(AccountDto registerDto) {
+//        Account account;
+//        try {
+//            account = repository.save(fromDto(registerDto));
+//        } catch (DataIntegrityViolationException e) {
+//            throw new ResponseStatusException(HttpStatus.valueOf(409));
+//        }
+//        registerDto.setId(account.getId());
+//        registerDto.setPassword(null);
+//        return registerDto;
+//    }
+
 }

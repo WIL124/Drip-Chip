@@ -1,14 +1,11 @@
 package com.example.dripchipsystem.endpoint;
 
-import com.example.dripchipsystem.dto.Dto;
-import com.example.dripchipsystem.model.AbstractEntity;
+import com.example.dripchipsystem.dto.AbstractDto;
 import com.example.dripchipsystem.service.CommonService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -17,19 +14,29 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Validated
-public abstract class AbstractEndpoint<E extends AbstractEntity, S extends CommonService<E>>
-        implements CommonEndpoint<E> {
-    protected S service;
+public abstract class AbstractEndpoint
+        <SERVICE extends CommonService<DTO>,
+                DTO extends AbstractDto>
+        implements CommonEndpoint<DTO> {
+    protected SERVICE service;
 
     @GetMapping("/{id}")
-    public Dto<E> getEntity(@PathVariable @NotNull @Min(1) Long id) {
-        E entity = service.getEntity(id);
-        return toDto(entity);
+    public DTO getEntity(@PathVariable @NotNull @Min(1) Long id) {
+        return service.getEntity(id);
     }
+
     @PostMapping
-    public Dto<E> create(@Valid Dto<E> dto){
-        E entity = service.create(dto);
-        return toDto(entity);
+    public DTO create(@Valid DTO dto) {
+        return service.create(dto);
     }
-    protected abstract Dto<E> toDto(E entity);
+
+    @PutMapping("/{id}")
+    public DTO update(@PathVariable @NotNull @Min(1) Long id, @RequestBody @Valid DTO dto) {
+        return service.updateEntity(id, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable @NotNull @Min(1) Long id) {
+        service.delete(id);
+    }
 }

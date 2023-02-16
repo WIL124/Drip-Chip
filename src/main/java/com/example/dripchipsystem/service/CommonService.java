@@ -1,10 +1,14 @@
 package com.example.dripchipsystem.service;
 
-import com.example.dripchipsystem.dto.Dto;
-import com.example.dripchipsystem.model.AbstractEntity;
+import com.example.dripchipsystem.dto.AbstractDto;
 
-public interface CommonService<E extends AbstractEntity> {
-    E getEntity(Long id);
+public interface CommonService<DTO extends AbstractDto> {
+    DTO getEntity(Long id);
 
-    E create(Dto dto);
+    DTO create(DTO dto);
+
+    DTO updateEntity(Long id, DTO dto);
+
+
+    void delete(Long id);
 }

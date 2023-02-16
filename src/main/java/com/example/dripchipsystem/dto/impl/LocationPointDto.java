@@ -1,6 +1,6 @@
-package com.example.dripchipsystem.dto;
+package com.example.dripchipsystem.dto.impl;
 
-import com.example.dripchipsystem.model.LocationPoint;
+import com.example.dripchipsystem.dto.AbstractDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LocationPointDto implements Dto<LocationPoint> {
-    private long id;
+public class LocationPointDto extends AbstractDto {
     private double latitude;
     private double longitude;
 }

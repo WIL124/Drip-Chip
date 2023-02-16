@@ -1,6 +1,6 @@
-package com.example.dripchipsystem.dto;
+package com.example.dripchipsystem.dto.impl;
 
-import com.example.dripchipsystem.model.AnimalType;
+import com.example.dripchipsystem.dto.AbstractDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AnimalTypeDto implements Dto<AnimalType> {
-    private Long id;
+public class AnimalTypeDto extends AbstractDto {
     private String type;
 }

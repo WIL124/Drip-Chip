@@ -14,6 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class Animal extends AbstractEntity {
     private float weight;
     private float length;

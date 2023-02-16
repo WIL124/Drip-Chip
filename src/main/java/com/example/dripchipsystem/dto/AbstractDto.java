@@ -1,15 +1,17 @@
 package com.example.dripchipsystem.dto;
 
-import com.example.dripchipsystem.model.Animal;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class AnimalDto implements Dto<Animal> {
+@Getter
+@Setter
+@SuperBuilder
+public abstract class AbstractDto {
     private Long id;
 }

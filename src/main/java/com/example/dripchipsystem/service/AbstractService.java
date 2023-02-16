@@ -1,6 +1,7 @@
 package com.example.dripchipsystem.service;
 
-import com.example.dripchipsystem.dto.Dto;
+import com.example.dripchipsystem.dto.AbstractDto;
+import com.example.dripchipsystem.mapper.Mapper;
 import com.example.dripchipsystem.model.AbstractEntity;
 import com.example.dripchipsystem.repo.CommonRepository;
 import lombok.AllArgsConstructor;
@@ -10,14 +11,41 @@ import org.springframework.web.server.ResponseStatusException;
 
 @AllArgsConstructor
 @Service
-public abstract class AbstractService<E extends AbstractEntity, R extends CommonRepository<E>> implements CommonService<E> {
-    protected R repository;
+public abstract class AbstractService
+        <ENTITY extends AbstractEntity,
+                REPOSITORY extends CommonRepository<ENTITY>,
+                MAPPER extends Mapper<ENTITY, DTO>,
+                DTO extends AbstractDto> implements CommonService<DTO> {
 
-    public E getEntity(Long id) {
-        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    protected REPOSITORY repository;
+    protected MAPPER mapper;
+
+    public DTO getEntity(Long id) {
+        return mapper.toDto(getEntityOrThrow(id));
     }
 
-    public E create(Dto dto) {
-        return null;
+
+    @Override
+    public DTO create(DTO dto) {
+        ENTITY entity = mapper.fromDto(dto);
+        repository.save(entity);
+        return mapper.toDto(entity);
+    }
+
+//    public DTO update(Long id, DTO dto) {
+//        ENTITY entity = getEntityOrThrow(id);
+//        updateEntityFromDto(entity, dto);
+//        return mapper.toDto(entity);
+//    }
+
+    public void delete(Long id) {
+        ENTITY entity = getEntityOrThrow(id);
+    }
+
+    public abstract void updateEntityFromDto(ENTITY entity, DTO dto);
+
+    protected ENTITY getEntityOrThrow(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 }
