@@ -33,9 +33,10 @@ public class AccountEndpoint extends AbstractEndpoint<Account, AccountService> {
     protected Dto<Account> toDto(Account entity) {
         return AccountDto.builder()
                 .id(entity.getId())
-                .firstname(entity.getFirstName())
+                .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
                 .email(entity.getEmail())
+                .password(null)
                 .build();
     }
 }
