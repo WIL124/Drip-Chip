@@ -6,11 +6,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class LocationPointDto extends AbstractDto {
-    private double latitude;
-    private double longitude;
+    @NotNull
+    private Double latitude;
+    @NotNull
+    private Double longitude;
+
+    @Builder
+    public LocationPointDto(Long id, Double latitude, Double longitude) {
+        super(id);
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }

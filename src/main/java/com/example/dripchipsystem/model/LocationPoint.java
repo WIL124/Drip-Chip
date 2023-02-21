@@ -7,10 +7,19 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class LocationPoint extends AbstractEntity {
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
+
+    @Builder
+    public LocationPoint(Long id, Double latitude, Double longitude) {
+        super(id);
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public LocationPoint() {
+        super(null);
+    }
 }

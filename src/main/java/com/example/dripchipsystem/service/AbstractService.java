@@ -5,6 +5,7 @@ import com.example.dripchipsystem.mapper.Mapper;
 import com.example.dripchipsystem.model.AbstractEntity;
 import com.example.dripchipsystem.repo.CommonRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -27,8 +28,12 @@ public abstract class AbstractService
 
     @Override
     public DTO create(DTO dto) {
-        ENTITY entity = mapper.fromDto(dto);
-        repository.save(entity);
+        ENTITY entity = mapper.createEntityFromDto(dto);
+        try {
+            repository.save(entity);
+        } catch (DataIntegrityViolationException ex) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
         return mapper.toDto(entity);
     }
 
@@ -40,6 +45,7 @@ public abstract class AbstractService
 
     public void delete(Long id) {
         ENTITY entity = getEntityOrThrow(id);
+        repository.delete(entity);
     }
 
     public abstract void updateEntityFromDto(ENTITY entity, DTO dto);

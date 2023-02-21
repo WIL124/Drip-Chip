@@ -26,6 +26,8 @@ public class SecurityConfig {
                 .authorizeRequests(auth -> {
                     auth.antMatchers("/registration").anonymous();
                     auth.antMatchers(HttpMethod.GET).access("isAnonymous() || isAuthenticated()");
+                    auth.antMatchers(HttpMethod.DELETE, "/accounts/{userId}/**").access("@userSecurity.hasUserId(authentication, #userId)");
+//                    auth.antMatchers(HttpMethod.PUT, "/accounts/{userId}/**").access("@userSecurity.hasUserId(authentication, #userId)");
                     auth.anyRequest().authenticated();
                 })
                 .httpBasic();

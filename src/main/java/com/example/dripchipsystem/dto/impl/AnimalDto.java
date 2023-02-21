@@ -5,6 +5,8 @@ import com.example.dripchipsystem.model.*;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,16 +32,25 @@ public class AnimalDto extends AbstractDto {
         this.visitedLocationsId = visitedLocationsId;
         this.deathDateTime = deathDateTime;
     }
-
+    @NotNull
     private List<Long> animalTypes;
-    private float weight;
-    private float length;
-    private float height;
+    @NotNull
+    private Float weight;
+    @NotNull
+    private Float length;
+    @NotNull
+    private Float height;
+    @NotNull
     private Gender gender;
+    @NotNull
     private LifeStatus lifeStatus = LifeStatus.ALIVE;
+    @NotNull
     private LocalDateTime chippingDateTime;
+    @NotNull
     private Long chipperId;
+    @NotNull
     private Long chippingLocationId;
+    @NotNull
     private List<Long> visitedLocationsId;
     private LocalDateTime deathDateTime;
 }
