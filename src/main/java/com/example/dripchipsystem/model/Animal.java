@@ -34,13 +34,13 @@ public class Animal extends AbstractEntity {
     @JoinColumn(name = "chipping_location_id")
     private LocationPoint chippingLocation;
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "animal_visited_locations",
-            joinColumns = {@JoinColumn(name = "animal_id")},
-            inverseJoinColumns = {@JoinColumn(name = "location_point_id")}
-    )
+//    @JoinTable(
+//            name = "animal_visited_locations",
+//            joinColumns = {@JoinColumn(name = "animal_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "location_point_id")}
+//    )
     @ToString.Exclude
-    private List<LocationPoint> visitedLocations;
+    private List<AnimalVisitedLocation> visitedLocations;
     private LocalDateTime deathDateTime;
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinTable(

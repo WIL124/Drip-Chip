@@ -4,6 +4,7 @@ import com.example.dripchipsystem.dto.impl.AnimalDto;
 import com.example.dripchipsystem.mapper.impl.AnimalMapper;
 import com.example.dripchipsystem.model.Animal;
 import com.example.dripchipsystem.model.AnimalType;
+import com.example.dripchipsystem.model.AnimalVisitedLocation;
 import com.example.dripchipsystem.repo.AnimalRepository;
 import com.example.dripchipsystem.repo.AnimalTypeRepository;
 import com.example.dripchipsystem.service.AbstractService;

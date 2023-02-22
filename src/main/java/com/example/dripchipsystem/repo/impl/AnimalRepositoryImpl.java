@@ -33,7 +33,7 @@ public class AnimalRepositoryImpl implements AnimalRepositoryCustom {
             predicates.add(cb.lessThanOrEqualTo(accountRoot.get("endDateTime"), endDateTime));
         }
         if (chipperId != null) {
-            predicates.add(cb.equal(accountRoot.get("chipperId"), chipperId));
+            predicates.add(cb.equal(accountRoot.get("chipper").get("id"), chipperId));
         }
         if (chippingLocationId != null) {
             predicates.add(cb.equal(accountRoot.get("chippingLocationId"), chippingLocationId));

@@ -4,12 +4,12 @@ import com.example.dripchipsystem.dto.impl.AnimalDto;
 import com.example.dripchipsystem.endpoint.AbstractEndpoint;
 import com.example.dripchipsystem.endpoint.CommonEndpoint;
 import com.example.dripchipsystem.service.impl.AnimalService;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,9 +35,11 @@ public class AnimalEndpoint
                                   @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) int size) {
         return service.search(startDateTime, endDateTime, chipperId, chippingLocationId, lifeStatus, gender, from, size);
     }
+
     @PostMapping("/{animalId}/types/{typeId}")
+    @ResponseStatus(HttpStatus.CREATED)
     public AnimalDto addType(@PathVariable @NotNull @DecimalMin(value = "0", inclusive = false) Long animalId,
-                             @PathVariable @NotNull @DecimalMin(value = "0", inclusive = false) Long typeId){
+                             @PathVariable @NotNull @DecimalMin(value = "0", inclusive = false) Long typeId) {
         return service.addTypeToAnimal(animalId, typeId);
     }
 }
