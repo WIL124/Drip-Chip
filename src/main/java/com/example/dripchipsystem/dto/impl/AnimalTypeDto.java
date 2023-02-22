@@ -17,7 +17,6 @@ public class AnimalTypeDto extends AbstractDto {
     @NotBlank
     private String type;
     @Builder
-
     public AnimalTypeDto(@DecimalMin(value = "0", inclusive = false) Long id, String type) {
         super(id);
         this.type = type;

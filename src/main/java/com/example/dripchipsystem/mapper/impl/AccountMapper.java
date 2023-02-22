@@ -7,13 +7,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.Cipher;
+
 @Component
 @AllArgsConstructor
 public class AccountMapper extends AbstractMapper<Account, AccountDto> {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public Account createEntityFromDto(AccountDto dto) {
+    public Account entityFromDto(AccountDto dto) {
         return Account.builder()
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())

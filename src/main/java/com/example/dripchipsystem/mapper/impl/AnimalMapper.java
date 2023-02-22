@@ -2,15 +2,21 @@ package com.example.dripchipsystem.mapper.impl;
 
 import com.example.dripchipsystem.dto.impl.AnimalDto;
 import com.example.dripchipsystem.mapper.AbstractMapper;
+import com.example.dripchipsystem.model.AbstractEntity;
 import com.example.dripchipsystem.model.Animal;
+import com.example.dripchipsystem.model.LifeStatus;
 import com.example.dripchipsystem.repo.AccountRepository;
 import com.example.dripchipsystem.repo.AnimalTypeRepository;
 import com.example.dripchipsystem.repo.LocationRepository;
 import lombok.AllArgsConstructor;
+import org.hibernate.type.OffsetDateTimeType;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -20,12 +26,13 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDto> {
     private AccountRepository accountRepository;
     private LocationRepository locationRepository;
     @Override
-    public Animal createEntityFromDto(AnimalDto dto) {
+    public Animal entityFromDto(AnimalDto dto) {
         return Animal.builder()
                 .weight(dto.getWeight())
                 .length(dto.getLength())
                 .height(dto.getHeight())
                 .gender(dto.getGender())
+                .lifeStatus(LifeStatus.ALIVE)
                 .chipper(
                         accountRepository.findById(
                                 dto.getChipperId())
@@ -42,8 +49,24 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDto> {
     }
 
     @Override
-    public AnimalDto toDto(Animal dto) {
-        return null;
+    public AnimalDto toDto(Animal entity) {
+        List<Long> list = entity.getVisitedLocations() == null ?
+                new ArrayList<>() :
+                entity.getVisitedLocations().stream().mapToLong(AbstractEntity::getId).boxed().collect(Collectors.toList());
+        return AnimalDto.builder()
+                .id(entity.getId())
+                .chipperId(entity.getChipper().getId())
+                .chippingDateTime(entity.getChippingDateTime())
+                .lifeStatus(entity.getLifeStatus())
+                .gender(entity.getGender())
+                .length(entity.getLength())
+                .height(entity.getHeight())
+                .weight(entity.getWeight())
+                .animalTypes(entity.getAnimalTypes().stream().mapToLong(AbstractEntity::getId).boxed().collect(Collectors.toList()))
+                .chippingLocationId(entity.getChippingLocation().getId())
+                .deathDateTime(entity.getDeathDateTime())
+                .visitedLocations(list)
+                .build();
     }
 
     @Override

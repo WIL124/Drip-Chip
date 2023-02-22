@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LocationPointMapper extends AbstractMapper<LocationPoint, LocationPointDto> {
     @Override
-    public LocationPoint createEntityFromDto(LocationPointDto dto) {
+    public LocationPoint entityFromDto(LocationPointDto dto) {
         return LocationPoint.builder()
                 .id(dto.getId())
                 .latitude(dto.getLatitude())

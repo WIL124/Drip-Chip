@@ -27,7 +27,7 @@ public abstract class AbstractService
 
     @Override
     public DTO create(DTO dto) {
-        ENTITY entity = mapper.createEntityFromDto(dto);
+        ENTITY entity = mapper.entityFromDto(dto);
         try {
             repository.save(entity);
         } catch (DataIntegrityViolationException ex) {

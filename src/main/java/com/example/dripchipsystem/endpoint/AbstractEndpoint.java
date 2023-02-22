@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
@@ -32,12 +31,13 @@ public abstract class AbstractEndpoint<SERVICE extends CommonService<DTO>, DTO e
     }
 
     @PutMapping("/{id}")
-    public DTO update(@PathVariable @NotNull @DecimalMin(value = "0", inclusive = false) Long id, @RequestBody @Valid DTO dto) {
+    public DTO update(@PathVariable @NotNull @DecimalMin(value = "0", inclusive = false) Long id,
+                      @RequestBody @Valid DTO dto) {
         return service.updateEntity(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable @NotNull @Min(1) Long id) {
+    public void delete(@PathVariable @NotNull @DecimalMin(value = "0", inclusive = false) Long id) {
         service.delete(id);
     }
 }

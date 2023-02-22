@@ -2,16 +2,13 @@ package com.example.dripchipsystem.dto.impl;
 
 import com.example.dripchipsystem.dto.AbstractDto;
 import com.example.dripchipsystem.model.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.*;
-import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -31,19 +28,19 @@ public class AnimalDto extends AbstractDto {
     @NotNull
     private Gender gender;
     private LifeStatus lifeStatus = LifeStatus.ALIVE;
-    @CreatedDate
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime chippingDateTime;
     @NotNull
     private Long chipperId;
     @NotNull
     private Long chippingLocationId;
-    private List<Long> visitedLocationsId;
+    private List<Long> visitedLocations;
     private LocalDateTime deathDateTime;
 
     @Builder
     public AnimalDto(Long id, List<Long> animalTypes, float weight, float length, float height,
                      Gender gender, LifeStatus lifeStatus, LocalDateTime chippingDateTime,
-                     Long chipperId, Long chippingLocationId, List<Long> visitedLocationsId,
+                     Long chipperId, Long chippingLocationId, List<Long> visitedLocations,
                      LocalDateTime deathDateTime) {
         super(id);
         this.animalTypes = animalTypes;
@@ -55,7 +52,7 @@ public class AnimalDto extends AbstractDto {
         this.chippingDateTime = chippingDateTime;
         this.chipperId = chipperId;
         this.chippingLocationId = chippingLocationId;
-        this.visitedLocationsId = visitedLocationsId;
+        this.visitedLocations = visitedLocations;
         this.deathDateTime = deathDateTime;
     }
 }

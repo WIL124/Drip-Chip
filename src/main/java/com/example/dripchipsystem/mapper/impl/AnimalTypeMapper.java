@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AnimalTypeMapper extends AbstractMapper<AnimalType, AnimalTypeDto> {
     @Override
-    public AnimalType createEntityFromDto(AnimalTypeDto dto) {
+    public AnimalType entityFromDto(AnimalTypeDto dto) {
         return new AnimalType(dto.getType());
     }
 

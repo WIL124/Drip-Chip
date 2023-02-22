@@ -2,6 +2,8 @@ package com.example.dripchipsystem.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,6 +25,7 @@ public class Animal extends AbstractEntity {
     private Gender gender;
     @Enumerated(EnumType.STRING)
     private LifeStatus lifeStatus = LifeStatus.ALIVE;
+    @CreationTimestamp
     private LocalDateTime chippingDateTime;
     @ManyToOne
     @JoinColumn(name = "chipper_id")
