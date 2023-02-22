@@ -32,7 +32,7 @@ public abstract class AbstractEndpoint<SERVICE extends CommonService<DTO>, DTO e
     }
 
     @PutMapping("/{id}")
-    public DTO update(@PathVariable @NotNull @Min(1) Long id, @RequestBody @Valid DTO dto) {
+    public DTO update(@PathVariable @NotNull @DecimalMin(value = "0", inclusive = false) Long id, @RequestBody @Valid DTO dto) {
         return service.updateEntity(id, dto);
     }
 

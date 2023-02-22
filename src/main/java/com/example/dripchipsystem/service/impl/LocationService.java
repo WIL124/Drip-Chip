@@ -15,14 +15,4 @@ public class LocationService
     public LocationService(LocationRepository repository, LocationPointMapper locationPointMapper) {
         super(repository, locationPointMapper);
     }
-
-    @Override
-    public void updateEntityFromDto(LocationPoint entity, LocationPointDto dto) {
-
-    }
-
-    @Override
-    public LocationPointDto updateEntity(Long id, LocationPointDto dto) {
-        return null;
-    }
 }

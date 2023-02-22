@@ -31,4 +31,12 @@ public class AccountMapper extends AbstractMapper<Account, AccountDto> {
                 .email(entity.getEmail())
                 .build();
     }
+
+    @Override
+    public void updateEntityFromDto(Account entity, AccountDto dto) {
+        entity.setEmail(dto.getEmail());
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
+    }
 }

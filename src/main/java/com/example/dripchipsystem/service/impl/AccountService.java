@@ -9,7 +9,6 @@ import com.example.dripchipsystem.service.CommonService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,11 +19,9 @@ import java.util.stream.Collectors;
 public class AccountService
         extends AbstractService<Account, AccountRepository, AccountMapper, AccountDto>
         implements UserDetailsService, CommonService<AccountDto> {
-    private final PasswordEncoder passwordEncoder;
 
-    public AccountService(PasswordEncoder passwordEncoder, AccountRepository repository, AccountMapper accountMapper) {
+    public AccountService(AccountRepository repository, AccountMapper accountMapper) {
         super(repository, accountMapper);
-        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -40,27 +37,4 @@ public class AccountService
         if (account.isEmpty()) throw new UsernameNotFoundException("User by email " + email + " not found");
         return account.get();
     }
-
-    @Override
-    public void updateEntityFromDto(Account entity, AccountDto dto) {
-
-    }
-
-    @Override
-    public AccountDto updateEntity(Long id, AccountDto dto) {
-        return null;
-    }
-
-//    public AccountDto register(AccountDto registerDto) {
-//        Account account;
-//        try {
-//            account = repository.save(fromDto(registerDto));
-//        } catch (DataIntegrityViolationException e) {
-//            throw new ResponseStatusException(HttpStatus.valueOf(409));
-//        }
-//        registerDto.setId(account.getId());
-//        registerDto.setPassword(null);
-//        return registerDto;
-//    }
-
 }

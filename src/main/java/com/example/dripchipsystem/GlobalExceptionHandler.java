@@ -23,6 +23,6 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(EntityNotFoundException.class)
     protected String handle(EntityNotFoundException ex) {
-        return ex.getMessage();
+        return ex.getLocalizedMessage();
     }
 }

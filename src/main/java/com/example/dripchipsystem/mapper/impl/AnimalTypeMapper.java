@@ -14,6 +14,11 @@ public class AnimalTypeMapper extends AbstractMapper<AnimalType, AnimalTypeDto> 
 
     @Override
     public AnimalTypeDto toDto(AnimalType entity) {
-        return new AnimalTypeDto(entity.getType());
+        return new AnimalTypeDto(entity.getId(), entity.getType());
+    }
+
+    @Override
+    public void updateEntityFromDto(AnimalType entity, AnimalTypeDto dto) {
+        entity.setType(dto.getType());
     }
 }

@@ -46,4 +46,17 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDto> {
         return null;
     }
 
+    @Override
+    public void updateEntityFromDto(Animal entity, AnimalDto dto) {
+        entity.setWeight(dto.getWeight());
+        entity.setHeight(dto.getHeight());
+        entity.setLength(dto.getLength());
+        entity.setGender(dto.getGender());
+        entity.setChipper(accountRepository.findById(dto.getChipperId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+        entity.setChippingLocation(locationRepository.findById(dto.getChippingLocationId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+        entity.setLifeStatus(dto.getLifeStatus());
+    }
+
 }

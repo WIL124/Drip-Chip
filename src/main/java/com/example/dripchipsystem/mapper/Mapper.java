@@ -7,4 +7,5 @@ public interface Mapper<E extends AbstractEntity, D extends AbstractDto> {
     E createEntityFromDto(D dto);
 
     D toDto(E dto);
+    void updateEntityFromDto(E entity, D dto);
 }

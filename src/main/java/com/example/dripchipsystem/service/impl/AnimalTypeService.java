@@ -17,14 +17,4 @@ public class AnimalTypeService
     public AnimalTypeService(AnimalTypeRepository repository, AnimalTypeMapper animalTypeMapper) {
         super(repository, animalTypeMapper);
     }
-
-    @Override
-    public void updateEntityFromDto(AnimalType entity, AnimalTypeDto dto) {
-
-    }
-
-    @Override
-    public AnimalTypeDto updateEntity(Long id, AnimalTypeDto dto) {
-        return null;
-    }
 }

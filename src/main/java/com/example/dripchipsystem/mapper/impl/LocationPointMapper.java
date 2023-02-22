@@ -24,4 +24,10 @@ public class LocationPointMapper extends AbstractMapper<LocationPoint, LocationP
                 .longitude(dto.getLongitude())
                 .build();
     }
+
+    @Override
+    public void updateEntityFromDto(LocationPoint entity, LocationPointDto dto) {
+        entity.setLatitude(dto.getLatitude());
+        entity.setLongitude(dto.getLongitude());
+    }
 }
