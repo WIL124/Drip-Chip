@@ -1,5 +1,6 @@
 package com.example.dripchipsystem.service.impl;
 
+import com.example.dripchipsystem.dto.AnimalUpdateRequest;
 import com.example.dripchipsystem.dto.UpdateAnimalTypeDto;
 import com.example.dripchipsystem.dto.impl.AnimalDto;
 import com.example.dripchipsystem.mapper.impl.AnimalMapper;
@@ -72,5 +73,15 @@ public class AnimalService extends AbstractService<Animal, AnimalRepository, Ani
         if (animal.getAnimalTypes().contains(newAnimalType)) throw new ResponseStatusException(HttpStatus.CONFLICT);
         animal.getAnimalTypes().add(newAnimalType);
         return mapper.toDto(animal);
+    }
+
+    public AnimalDto updateEntity(Long id, AnimalUpdateRequest dto) {
+        Animal entity = getEntityOrThrow(id);
+        mapper.updateEntityFromDto(entity, dto);
+        try {
+            return mapper.toDto(repository.save(entity));
+        } catch (DataIntegrityViolationException exception) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
     }
 }

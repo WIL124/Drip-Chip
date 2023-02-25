@@ -1,5 +1,6 @@
 package com.example.dripchipsystem.mapper.impl;
 
+import com.example.dripchipsystem.dto.AnimalUpdateRequest;
 import com.example.dripchipsystem.dto.impl.AnimalDto;
 import com.example.dripchipsystem.mapper.AbstractMapper;
 import com.example.dripchipsystem.model.AbstractEntity;
@@ -69,7 +70,20 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDto> {
     }
 
     @Override
+    @Deprecated
     public void updateEntityFromDto(Animal entity, AnimalDto dto) {
+//        entity.setWeight(dto.getWeight());
+//        entity.setHeight(dto.getHeight());
+//        entity.setLength(dto.getLength());
+//        entity.setGender(dto.getGender());
+//        entity.setChipper(accountRepository.findById(dto.getChipperId())
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+//        entity.setChippingLocation(locationRepository.findById(dto.getChippingLocationId())
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+//        entity.setLifeStatus(dto.getLifeStatus());
+    }
+
+    public void updateEntityFromDto(Animal entity, AnimalUpdateRequest dto) {
         entity.setWeight(dto.getWeight());
         entity.setHeight(dto.getHeight());
         entity.setLength(dto.getLength());
@@ -80,5 +94,4 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDto> {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
         entity.setLifeStatus(dto.getLifeStatus());
     }
-
 }

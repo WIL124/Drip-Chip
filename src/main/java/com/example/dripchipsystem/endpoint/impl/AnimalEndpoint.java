@@ -1,5 +1,6 @@
 package com.example.dripchipsystem.endpoint.impl;
 
+import com.example.dripchipsystem.dto.AnimalUpdateRequest;
 import com.example.dripchipsystem.dto.UpdateAnimalTypeDto;
 import com.example.dripchipsystem.dto.impl.AnimalDto;
 import com.example.dripchipsystem.endpoint.AbstractEndpoint;
@@ -35,6 +36,29 @@ public class AnimalEndpoint
                                   @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) int size) {
         return service.search(startDateTime, endDateTime, chipperId, chippingLocationId, lifeStatus, gender, from, size);
     }
+
+    @GetMapping("/{id}")
+    public AnimalDto getEntity(@PathVariable @NotNull @Positive Long id) {
+        return service.getEntity(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable @NotNull @Positive Long id) {
+        service.delete(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public AnimalDto create(@Valid @RequestBody AnimalDto dto) {
+        return service.create(dto);
+    }
+
+    @PutMapping("/{id}")
+    public AnimalDto update(@PathVariable @NotNull @Positive Long id,
+                            @RequestBody @Valid AnimalUpdateRequest dto) {
+        return service.updateEntity(id, dto);
+    }
+
 
     @PostMapping("/{animalId}/types/{typeId}")
     @ResponseStatus(HttpStatus.CREATED)

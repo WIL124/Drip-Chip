@@ -4,6 +4,7 @@ import com.example.dripchipsystem.dto.impl.AnimalVisitedLocationDto;
 import com.example.dripchipsystem.endpoint.AbstractEndpoint;
 import com.example.dripchipsystem.service.impl.AnimalVisitedLocationsService;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.DecimalMin;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/animals/{animalId}/locations")
+@Validated
 public class AnimalVisitedLocationsEndpoint
         extends AbstractEndpoint<AnimalVisitedLocationsService, AnimalVisitedLocationDto> {
     public AnimalVisitedLocationsEndpoint(AnimalVisitedLocationsService service) {
@@ -29,10 +31,17 @@ public class AnimalVisitedLocationsEndpoint
                                                                         @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
         return service.searchVisitedLocations(animalId, startDateTime, endDateTime, from, size);
     }
+
     @PostMapping("/{pointId}")
     @ResponseStatus(HttpStatus.CREATED)
     public AnimalVisitedLocationDto create(@PathVariable @Positive Long animalId,
                                            @PathVariable @Positive Long pointId) {
         return service.create(animalId, pointId);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable @NotNull @Positive Long id,
+                       @PathVariable @NotNull @Positive Long animalId) {
+        service.delete(id);
     }
 }

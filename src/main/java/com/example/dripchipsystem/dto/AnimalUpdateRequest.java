@@ -1,6 +1,5 @@
 package com.example.dripchipsystem.dto;
 
-import com.example.dripchipsystem.dto.impl.AnimalDto;
 import com.example.dripchipsystem.model.Gender;
 import com.example.dripchipsystem.model.LifeStatus;
 import lombok.AllArgsConstructor;
@@ -13,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateAnimalRequest extends AnimalDto {
+public class AnimalUpdateRequest {
     @NotNull
     @DecimalMin(value = "0", inclusive = false)
     private Float weight;
