@@ -9,12 +9,10 @@ import com.example.dripchipsystem.repo.AccountRepository;
 import com.example.dripchipsystem.repo.AnimalTypeRepository;
 import com.example.dripchipsystem.repo.LocationRepository;
 import lombok.AllArgsConstructor;
-import org.hibernate.type.OffsetDateTimeType;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +23,7 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDto> {
     private AnimalTypeRepository animalTypeRepository;
     private AccountRepository accountRepository;
     private LocationRepository locationRepository;
+
     @Override
     public Animal entityFromDto(AnimalDto dto) {
         return Animal.builder()
@@ -35,7 +34,7 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDto> {
                 .lifeStatus(LifeStatus.ALIVE)
                 .chipper(
                         accountRepository.findById(
-                                dto.getChipperId())
+                                        dto.getChipperId())
                                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)))
                 .animalTypes(
                         dto.getAnimalTypes().stream()

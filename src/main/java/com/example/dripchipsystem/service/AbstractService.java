@@ -38,7 +38,12 @@ public abstract class AbstractService
 
     public void delete(Long id) {
         ENTITY entity = getEntityOrThrow(id);
-        repository.delete(entity);
+        try {
+            repository.delete(entity);
+        } catch (DataIntegrityViolationException ex) {
+            throw new ResponseStatusException(HttpStatus.valueOf(400));
+        }
+
     }
 
     @Override

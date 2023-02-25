@@ -1,4 +1,4 @@
-package com.example.dripchipsystem.endpoint.impl;
+package com.example.dripchipsystem.endpoint;
 
 import com.example.dripchipsystem.dto.AbstractDto;
 import com.example.dripchipsystem.dto.impl.AccountDto;

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 @Setter
 @ToString
 @Entity
+@NoArgsConstructor
 public class LocationPoint extends AbstractEntity {
     private Double latitude;
     private Double longitude;
@@ -17,9 +18,5 @@ public class LocationPoint extends AbstractEntity {
         super(id);
         this.latitude = latitude;
         this.longitude = longitude;
-    }
-
-    public LocationPoint() {
-        super(null);
     }
 }

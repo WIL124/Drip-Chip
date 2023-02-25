@@ -3,10 +3,7 @@ package com.example.dripchipsystem.model;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -14,16 +11,18 @@ import java.time.LocalDateTime;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "animal_visited_locations")
 @Table(name = "animal_visited_locations")
 public class AnimalVisitedLocation extends AbstractEntity {
     @CreationTimestamp
     private LocalDateTime dateTimeOfVisitLocationPoint;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "visited_locations_id", table = "animal_visited_locations")
+    @ToString.Exclude
     private LocationPoint locationPoint;
-    @ManyToOne
-    @JoinColumn(name = "animal_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "animal_id", table = "animal_visited_locations")
+    @ToString.Exclude
     private Animal animal;
 
     @Builder

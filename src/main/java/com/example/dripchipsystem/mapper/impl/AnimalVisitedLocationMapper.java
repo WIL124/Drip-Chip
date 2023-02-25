@@ -24,6 +24,5 @@ public class AnimalVisitedLocationMapper
 
     @Override
     public void updateEntityFromDto(AnimalVisitedLocation entity, AnimalVisitedLocationDto dto) {
-
     }
 }

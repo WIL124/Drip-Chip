@@ -9,6 +9,5 @@ public interface CommonService<DTO extends AbstractDto> {
 
     DTO updateEntity(Long id, DTO dto);
 
-
     void delete(Long id);
 }

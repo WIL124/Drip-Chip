@@ -3,12 +3,13 @@ package com.example.dripchipsystem.model;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,18 +28,21 @@ public class Animal extends AbstractEntity {
     private LifeStatus lifeStatus = LifeStatus.ALIVE;
     @CreationTimestamp
     private LocalDateTime chippingDateTime;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chipper_id")
+    @ToString.Exclude
     private Account chipper;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chipping_location_id")
+    @ToString.Exclude
     private LocationPoint chippingLocation;
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-//    @JoinTable(
-//            name = "animal_visited_locations",
-//            joinColumns = {@JoinColumn(name = "animal_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "location_point_id")}
-//    )
+    @ManyToMany(targetEntity = AnimalVisitedLocation.class, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "animal_visited_locations",
+            joinColumns = {@JoinColumn(name = "animal_id", table = "animal_visited_locations")},
+            inverseJoinColumns = {@JoinColumn(name = "visited_locations_id", table = "animal_visited_locations")}
+    )
+//    @JoinColumn(name = "visited_locations_id", table = "animal_visited_locations")
     @ToString.Exclude
     private List<AnimalVisitedLocation> visitedLocations;
     private LocalDateTime deathDateTime;

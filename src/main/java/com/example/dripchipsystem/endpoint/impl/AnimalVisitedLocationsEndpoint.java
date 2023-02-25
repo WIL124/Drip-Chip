@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,11 +29,10 @@ public class AnimalVisitedLocationsEndpoint
                                                                         @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
         return service.searchVisitedLocations(animalId, startDateTime, endDateTime, from, size);
     }
-
     @PostMapping("/{pointId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public AnimalVisitedLocationDto create(@PathVariable @DecimalMin(value = "0", inclusive = false) Long animalId,
-                                           @PathVariable @DecimalMin(value = "0", inclusive = false) Long pointId) {
+    public AnimalVisitedLocationDto create(@PathVariable @Positive Long animalId,
+                                           @PathVariable @Positive Long pointId) {
         return service.create(animalId, pointId);
     }
 }

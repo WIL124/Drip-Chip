@@ -8,18 +8,19 @@ import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 public interface CommonEndpoint<DTO extends AbstractDto> {
     @GetMapping("/{id}")
-    DTO getEntity(@PathVariable @NotNull @DecimalMin(value = "0", inclusive = false) Long id);
+    DTO getEntity(@PathVariable @NotNull @Positive Long id);
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     DTO create(@Valid @RequestBody DTO dto);
 
     @PutMapping("/{id}")
-    DTO update(@PathVariable @NotNull @DecimalMin(value = "0", inclusive = false) Long id, @RequestBody @Valid DTO dto);
+    DTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid DTO dto);
 
     @DeleteMapping("/{id}")
-    void delete(@PathVariable @NotNull @DecimalMin(value = "0", inclusive = false) Long id);
+    void delete(@PathVariable @NotNull @Positive Long id);
 }

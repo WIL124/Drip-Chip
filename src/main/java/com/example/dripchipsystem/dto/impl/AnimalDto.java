@@ -1,13 +1,17 @@
 package com.example.dripchipsystem.dto.impl;
 
 import com.example.dripchipsystem.dto.AbstractDto;
-import com.example.dripchipsystem.model.*;
+import com.example.dripchipsystem.model.Gender;
+import com.example.dripchipsystem.model.LifeStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,24 +19,28 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class AnimalDto extends AbstractDto {
-
     @NotNull
     @NotEmpty
-    private List<@NotNull @DecimalMin(value = "0", inclusive = false) Long> animalTypes;
+    private List<@NotNull @Positive Long> animalTypes;
     @NotNull
+    @Positive
     private Float weight;
     @NotNull
+    @Positive
     private Float length;
     @NotNull
+    @Positive
     private Float height;
     @NotNull
     private Gender gender;
     private LifeStatus lifeStatus = LifeStatus.ALIVE;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime chippingDateTime;
     @NotNull
+    @Positive
     private Long chipperId;
     @NotNull
+    @Positive
     private Long chippingLocationId;
     private List<Long> visitedLocations;
     private LocalDateTime deathDateTime;

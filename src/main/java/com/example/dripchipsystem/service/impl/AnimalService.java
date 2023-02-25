@@ -1,7 +1,9 @@
 package com.example.dripchipsystem.service.impl;
 
+import com.example.dripchipsystem.dto.UpdateAnimalTypeDto;
 import com.example.dripchipsystem.dto.impl.AnimalDto;
 import com.example.dripchipsystem.mapper.impl.AnimalMapper;
+import com.example.dripchipsystem.model.AbstractEntity;
 import com.example.dripchipsystem.model.Animal;
 import com.example.dripchipsystem.model.AnimalType;
 import com.example.dripchipsystem.model.AnimalVisitedLocation;
@@ -47,5 +49,28 @@ public class AnimalService extends AbstractService<Animal, AnimalRepository, Ani
         } catch (DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
+    }
+
+    public AnimalDto deleteTypeFromAnimal(Long animalId, Long typeId) {
+        Animal animal = getEntityOrThrow(animalId);
+        AnimalType animalType = animalTypeRepository.findById(typeId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        animal.getAnimalTypes().remove(animalType);
+        return mapper.toDto(animal);
+    }
+
+    public AnimalDto updateAnimalType(Long animalId, UpdateAnimalTypeDto dto) {
+        Animal animal = getEntityOrThrow(animalId);
+        AnimalType oldType = animal.getAnimalTypes().stream()
+                .filter(type -> type.getId().equals(dto.getOldTypeId()))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        animal.getAnimalTypes().remove(oldType);
+
+        AnimalType newAnimalType = animalTypeRepository.findById(dto.getNewTypeId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        if (animal.getAnimalTypes().contains(newAnimalType)) throw new ResponseStatusException(HttpStatus.CONFLICT);
+        animal.getAnimalTypes().add(newAnimalType);
+        return mapper.toDto(animal);
     }
 }

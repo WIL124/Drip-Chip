@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Positive;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,6 +16,6 @@ import javax.validation.constraints.DecimalMin;
 @Setter
 @SuperBuilder
 public abstract class AbstractDto {
-    @DecimalMin(value = "0", inclusive = false)
+    @Positive
     private Long id;
 }

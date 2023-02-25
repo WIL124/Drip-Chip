@@ -35,8 +35,8 @@ public class AnimalVisitedLocationsService
         Animal animal = animalRepository.findById(animalId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return animal.getVisitedLocations().stream()
-                .filter(location -> location.getDateTimeOfVisitLocationPoint().isAfter(startDateTime))
-                .filter(location -> location.getDateTimeOfVisitLocationPoint().isBefore(endDateTime))
+                .filter(location -> startDateTime == null || location.getDateTimeOfVisitLocationPoint().isAfter(startDateTime))
+                .filter(location -> endDateTime == null || location.getDateTimeOfVisitLocationPoint().isBefore(endDateTime))
                 .sorted()
                 .skip(from)
                 .limit(size)
