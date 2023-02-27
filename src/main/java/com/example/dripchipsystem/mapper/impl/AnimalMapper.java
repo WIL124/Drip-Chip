@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -92,6 +94,9 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDto> {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
         entity.setChippingLocation(locationRepository.findById(dto.getChippingLocationId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+        if (dto.getLifeStatus() == LifeStatus.DEAD) {
+            entity.setDeathDateTime(OffsetDateTime.now());
+        }
         entity.setLifeStatus(dto.getLifeStatus());
     }
 }

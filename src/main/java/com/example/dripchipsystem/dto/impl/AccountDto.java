@@ -1,9 +1,11 @@
 package com.example.dripchipsystem.dto.impl;
 
 import com.example.dripchipsystem.dto.AbstractDto;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -33,6 +35,5 @@ public class AccountDto extends AbstractDto {
     private String email;
     @NotNull
     @NotBlank
-    @Transient
     private String password;
 }

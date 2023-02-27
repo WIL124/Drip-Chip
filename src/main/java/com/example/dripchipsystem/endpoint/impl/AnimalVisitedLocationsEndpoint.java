@@ -3,15 +3,16 @@ package com.example.dripchipsystem.endpoint.impl;
 import com.example.dripchipsystem.dto.impl.AnimalVisitedLocationDto;
 import com.example.dripchipsystem.endpoint.AbstractEndpoint;
 import com.example.dripchipsystem.service.impl.AnimalVisitedLocationsService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
@@ -24,9 +25,9 @@ public class AnimalVisitedLocationsEndpoint
     }
 
     @GetMapping
-    public List<AnimalVisitedLocationDto> getVisitedLocationsWithFilter(@PathVariable @NotNull @DecimalMin(value = "0", inclusive = false) Long animalId,
-                                                                        @RequestParam(name = "startDateTime", required = false) LocalDateTime startDateTime,
-                                                                        @RequestParam(name = "endDateTime", required = false) LocalDateTime endDateTime,
+    public List<AnimalVisitedLocationDto> getVisitedLocationsWithFilter(@PathVariable @NotNull @Positive Long animalId,
+                                                                        @RequestParam(name = "startDateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime startDateTime,
+                                                                        @RequestParam(name = "endDateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime endDateTime,
                                                                         @RequestParam(name = "from", required = false, defaultValue = "0") @Min(0) Integer from,
                                                                         @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
         return service.searchVisitedLocations(animalId, startDateTime, endDateTime, from, size);
@@ -39,9 +40,9 @@ public class AnimalVisitedLocationsEndpoint
         return service.create(animalId, pointId);
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable @NotNull @Positive Long id,
+    @DeleteMapping("/{visitedPointId}")
+    public void delete(@PathVariable @NotNull @Positive Long visitedPointId,
                        @PathVariable @NotNull @Positive Long animalId) {
-        service.delete(id);
+        service.delete(animalId, visitedPointId);
     }
 }

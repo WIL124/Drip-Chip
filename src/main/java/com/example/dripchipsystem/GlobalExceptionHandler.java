@@ -1,6 +1,7 @@
 package com.example.dripchipsystem;
 
 import lombok.AllArgsConstructor;
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,4 +26,11 @@ public class GlobalExceptionHandler {
     protected String handle(EntityNotFoundException ex) {
         return ex.getLocalizedMessage();
     }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    @ExceptionHandler(ConversionFailedException.class)
+    protected String handle(ConversionFailedException ex) {
+        return ex.getLocalizedMessage();
+    }
+
 }

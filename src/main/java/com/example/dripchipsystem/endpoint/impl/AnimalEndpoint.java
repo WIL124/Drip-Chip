@@ -4,7 +4,10 @@ import com.example.dripchipsystem.dto.AnimalUpdateRequest;
 import com.example.dripchipsystem.dto.UpdateAnimalTypeDto;
 import com.example.dripchipsystem.dto.impl.AnimalDto;
 import com.example.dripchipsystem.endpoint.AbstractEndpoint;
+import com.example.dripchipsystem.model.Gender;
+import com.example.dripchipsystem.model.LifeStatus;
 import com.example.dripchipsystem.service.impl.AnimalService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
@@ -26,12 +30,12 @@ public class AnimalEndpoint
     }
 
     @GetMapping("/search")
-    public List<AnimalDto> search(@RequestParam(name = "startDateTime", required = false) LocalDateTime startDateTime,
-                                  @RequestParam(name = "endDateTime", required = false) LocalDateTime endDateTime,
+    public List<AnimalDto> search(@RequestParam(name = "startDateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime startDateTime,
+                                  @RequestParam(name = "endDateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime endDateTime,
                                   @RequestParam(name = "chipperId", required = false) Integer chipperId,
                                   @RequestParam(name = "chippingLocationId", required = false) Long chippingLocationId,
-                                  @RequestParam(name = "lifeStatus", required = false) String lifeStatus,
-                                  @RequestParam(name = "gender", required = false) String gender,
+                                  @RequestParam(name = "lifeStatus", required = false) LifeStatus lifeStatus,
+                                  @RequestParam(name = "gender", required = false) Gender gender,
                                   @RequestParam(name = "from", required = false, defaultValue = "0") @Min(0) int from,
                                   @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) int size) {
         return service.search(startDateTime, endDateTime, chipperId, chippingLocationId, lifeStatus, gender, from, size);

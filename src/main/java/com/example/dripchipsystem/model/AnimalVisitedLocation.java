@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @Table(name = "animal_visited_locations")
 public class AnimalVisitedLocation extends AbstractEntity {
     @CreationTimestamp
-    private LocalDateTime dateTimeOfVisitLocationPoint;
+    private OffsetDateTime dateTimeOfVisitLocationPoint;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "visited_locations_id", table = "animal_visited_locations")
     @ToString.Exclude
@@ -26,7 +27,7 @@ public class AnimalVisitedLocation extends AbstractEntity {
     private Animal animal;
 
     @Builder
-    public AnimalVisitedLocation(Long id, LocalDateTime dateTimeOfVisitLocationPoint, LocationPoint locationPoint, Animal animal) {
+    public AnimalVisitedLocation(Long id, OffsetDateTime dateTimeOfVisitLocationPoint, LocationPoint locationPoint, Animal animal) {
         super(id);
         this.dateTimeOfVisitLocationPoint = dateTimeOfVisitLocationPoint;
         this.locationPoint = locationPoint;

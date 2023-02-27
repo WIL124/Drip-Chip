@@ -4,10 +4,10 @@ import com.example.dripchipsystem.dto.AnimalUpdateRequest;
 import com.example.dripchipsystem.dto.UpdateAnimalTypeDto;
 import com.example.dripchipsystem.dto.impl.AnimalDto;
 import com.example.dripchipsystem.mapper.impl.AnimalMapper;
-import com.example.dripchipsystem.model.AbstractEntity;
 import com.example.dripchipsystem.model.Animal;
 import com.example.dripchipsystem.model.AnimalType;
-import com.example.dripchipsystem.model.AnimalVisitedLocation;
+import com.example.dripchipsystem.model.Gender;
+import com.example.dripchipsystem.model.LifeStatus;
 import com.example.dripchipsystem.repo.AnimalRepository;
 import com.example.dripchipsystem.repo.AnimalTypeRepository;
 import com.example.dripchipsystem.service.AbstractService;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,9 +32,20 @@ public class AnimalService extends AbstractService<Animal, AnimalRepository, Ani
         this.animalTypeRepository = animalTypeRepository;
     }
 
-    public List<AnimalDto> search(LocalDateTime startDateTime, LocalDateTime endDateTime,
+    @Override
+    public void delete(Long id) {
+        Animal entity = getEntityOrThrow(id);
+        if (!entity.getVisitedLocations().isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        try {
+            repository.delete(entity);
+        } catch (DataIntegrityViolationException ex) {
+            throw new ResponseStatusException(HttpStatus.valueOf(400));
+        }
+    }
+
+    public List<AnimalDto> search(OffsetDateTime startDateTime, OffsetDateTime endDateTime,
                                   Integer chipperId, Long chippingLocationId,
-                                  String lifeStatus, String gender, int from, int size) {
+                                  LifeStatus lifeStatus, Gender gender, int from, int size) {
         return repository.search(startDateTime, endDateTime, chipperId, chippingLocationId, lifeStatus, gender, from, size)
                 .stream()
                 .map(mapper::toDto)
@@ -54,10 +66,11 @@ public class AnimalService extends AbstractService<Animal, AnimalRepository, Ani
 
     public AnimalDto deleteTypeFromAnimal(Long animalId, Long typeId) {
         Animal animal = getEntityOrThrow(animalId);
+        if (animal.getAnimalTypes().size() == 1) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         AnimalType animalType = animalTypeRepository.findById(typeId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        animal.getAnimalTypes().remove(animalType);
-        return mapper.toDto(animal);
+        if (!animal.getAnimalTypes().remove(animalType)) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return mapper.toDto(repository.save(animal));
     }
 
     public AnimalDto updateAnimalType(Long animalId, UpdateAnimalTypeDto dto) {

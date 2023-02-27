@@ -31,6 +31,7 @@ public class AccountMapper extends AbstractMapper<Account, AccountDto> {
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
                 .email(entity.getEmail())
+                .password(null)
                 .build();
     }
 

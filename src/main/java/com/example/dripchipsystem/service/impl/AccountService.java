@@ -6,10 +6,13 @@ import com.example.dripchipsystem.model.Account;
 import com.example.dripchipsystem.repo.AccountRepository;
 import com.example.dripchipsystem.service.AbstractService;
 import com.example.dripchipsystem.service.CommonService;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,5 +39,16 @@ public class AccountService
         Optional<Account> account = repository.findByEmail(email);
         if (account.isEmpty()) throw new UsernameNotFoundException("User by email " + email + " not found");
         return account.get();
+    }
+
+    @Override
+    public void delete(Long id) {
+        Account entity = getEntityOrThrow(id);
+        if (!entity.getChippedAnimals().isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        try {
+            repository.delete(entity);
+        } catch (DataIntegrityViolationException ex) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
     }
 }

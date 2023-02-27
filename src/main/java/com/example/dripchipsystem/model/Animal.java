@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +28,7 @@ public class Animal extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private LifeStatus lifeStatus = LifeStatus.ALIVE;
     @CreationTimestamp
-    private LocalDateTime chippingDateTime;
+    private OffsetDateTime chippingDateTime;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chipper_id")
     @ToString.Exclude
@@ -40,12 +41,12 @@ public class Animal extends AbstractEntity {
     @JoinTable(
             name = "animal_visited_locations",
             joinColumns = {@JoinColumn(name = "animal_id", table = "animal_visited_locations")},
-            inverseJoinColumns = {@JoinColumn(name = "visited_locations_id", table = "animal_visited_locations")}
+            inverseJoinColumns = {@JoinColumn(name = "id", table = "animal_visited_locations")}
     )
 //    @JoinColumn(name = "visited_locations_id", table = "animal_visited_locations")
     @ToString.Exclude
     private List<AnimalVisitedLocation> visitedLocations;
-    private LocalDateTime deathDateTime;
+    private OffsetDateTime deathDateTime;
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "animal_animal_type",

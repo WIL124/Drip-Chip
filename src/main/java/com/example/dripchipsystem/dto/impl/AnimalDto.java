@@ -8,11 +8,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Getter
@@ -34,8 +36,8 @@ public class AnimalDto extends AbstractDto {
     @NotNull
     private Gender gender;
     private LifeStatus lifeStatus = LifeStatus.ALIVE;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
-    private LocalDateTime chippingDateTime;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private OffsetDateTime chippingDateTime;
     @NotNull
     @Positive
     private Long chipperId;
@@ -43,13 +45,14 @@ public class AnimalDto extends AbstractDto {
     @Positive
     private Long chippingLocationId;
     private List<Long> visitedLocations;
-    private LocalDateTime deathDateTime;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private OffsetDateTime deathDateTime;
 
     @Builder
     public AnimalDto(Long id, List<Long> animalTypes, float weight, float length, float height,
-                     Gender gender, LifeStatus lifeStatus, LocalDateTime chippingDateTime,
+                     Gender gender, LifeStatus lifeStatus, OffsetDateTime chippingDateTime,
                      Long chipperId, Long chippingLocationId, List<Long> visitedLocations,
-                     LocalDateTime deathDateTime) {
+                     OffsetDateTime deathDateTime) {
         super(id);
         this.animalTypes = animalTypes;
         this.weight = weight;
