@@ -1,9 +1,7 @@
 package com.example.dripchipsystem.service.impl;
 
 import com.example.dripchipsystem.dto.impl.AnimalTypeDto;
-import com.example.dripchipsystem.dto.AbstractDto;
 import com.example.dripchipsystem.mapper.impl.AnimalTypeMapper;
-import com.example.dripchipsystem.model.AbstractEntity;
 import com.example.dripchipsystem.model.AnimalType;
 import com.example.dripchipsystem.repo.AnimalTypeRepository;
 import com.example.dripchipsystem.service.AbstractService;

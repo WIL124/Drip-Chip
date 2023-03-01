@@ -1,5 +1,6 @@
 package com.example.dripchipsystem.endpoint.impl;
 
+import com.example.dripchipsystem.dto.UpdateVisitedLocationRequest;
 import com.example.dripchipsystem.dto.impl.AnimalVisitedLocationDto;
 import com.example.dripchipsystem.endpoint.AbstractEndpoint;
 import com.example.dripchipsystem.service.impl.AnimalVisitedLocationsService;
@@ -8,10 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -44,5 +45,11 @@ public class AnimalVisitedLocationsEndpoint
     public void delete(@PathVariable @NotNull @Positive Long visitedPointId,
                        @PathVariable @NotNull @Positive Long animalId) {
         service.delete(animalId, visitedPointId);
+    }
+
+    @PutMapping
+    public AnimalVisitedLocationDto update(@PathVariable @Positive Long animalId,
+                                           @RequestBody @Valid UpdateVisitedLocationRequest request) {
+        return service.update(animalId, request);
     }
 }

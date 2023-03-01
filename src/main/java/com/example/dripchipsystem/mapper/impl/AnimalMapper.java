@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +35,15 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDto> {
                 .gender(dto.getGender())
                 .lifeStatus(LifeStatus.ALIVE)
                 .chipper(
-                        accountRepository.findById(
-                                        dto.getChipperId())
+                        accountRepository.findById(dto.getChipperId())
                                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                .animalTypes(
-                        dto.getAnimalTypes().stream()
-                                .map(id -> animalTypeRepository.findById(id)
-                                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                                .collect(Collectors.toList()))
-                .chippingLocation(
-                        locationRepository.findById(dto.getChippingLocationId())
+                .animalTypes(dto.getAnimalTypes()
+                        .stream()
+                        .map(id -> animalTypeRepository.findById(id)
                                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                        .collect(Collectors.toList()))
+                .chippingLocation(locationRepository.findById(dto.getChippingLocationId())
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)))
                 .build();
     }
 
@@ -64,7 +61,11 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDto> {
                 .length(entity.getLength())
                 .height(entity.getHeight())
                 .weight(entity.getWeight())
-                .animalTypes(entity.getAnimalTypes().stream().mapToLong(AbstractEntity::getId).boxed().collect(Collectors.toList()))
+                .animalTypes(entity.getAnimalTypes().
+                        stream()
+                        .mapToLong(AbstractEntity::getId)
+                        .boxed()
+                        .collect(Collectors.toList()))
                 .chippingLocationId(entity.getChippingLocation().getId())
                 .deathDateTime(entity.getDeathDateTime())
                 .visitedLocations(list)
@@ -74,15 +75,6 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDto> {
     @Override
     @Deprecated
     public void updateEntityFromDto(Animal entity, AnimalDto dto) {
-//        entity.setWeight(dto.getWeight());
-//        entity.setHeight(dto.getHeight());
-//        entity.setLength(dto.getLength());
-//        entity.setGender(dto.getGender());
-//        entity.setChipper(accountRepository.findById(dto.getChipperId())
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
-//        entity.setChippingLocation(locationRepository.findById(dto.getChippingLocationId())
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
-//        entity.setLifeStatus(dto.getLifeStatus());
     }
 
     public void updateEntityFromDto(Animal entity, AnimalUpdateRequest dto) {

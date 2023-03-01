@@ -1,4 +1,4 @@
-package com.example.dripchipsystem.repo;
+package com.example.dripchipsystem.repo.impl;
 
 import com.example.dripchipsystem.model.Account;
 import org.springframework.stereotype.Repository;

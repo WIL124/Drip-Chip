@@ -3,13 +3,11 @@ package com.example.dripchipsystem.repo.impl;
 import com.example.dripchipsystem.model.Animal;
 import com.example.dripchipsystem.model.Gender;
 import com.example.dripchipsystem.model.LifeStatus;
-import com.example.dripchipsystem.repo.AnimalRepositoryCustom;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;

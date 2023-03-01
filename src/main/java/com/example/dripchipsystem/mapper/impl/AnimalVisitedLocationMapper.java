@@ -23,6 +23,7 @@ public class AnimalVisitedLocationMapper
     }
 
     @Override
+    @Deprecated
     public void updateEntityFromDto(AnimalVisitedLocation entity, AnimalVisitedLocationDto dto) {
     }
 }

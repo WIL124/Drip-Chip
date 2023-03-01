@@ -1,7 +1,6 @@
 package com.example.dripchipsystem.repo.impl;
 
 import com.example.dripchipsystem.model.Account;
-import com.example.dripchipsystem.repo.AccountRepositoryCustom;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 

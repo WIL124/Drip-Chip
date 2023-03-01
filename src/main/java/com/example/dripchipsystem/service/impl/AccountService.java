@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,18 +26,17 @@ public class AccountService
         super(repository, accountMapper);
     }
 
-
     public List<AccountDto> search(String firstName, String lastName, String email, int from, int size) {
-        return repository.findByFilter(firstName, lastName, email, from, size).stream()
+        return repository.findByFilter(firstName, lastName, email, from, size)
+                .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Account> account = repository.findByEmail(email);
-        if (account.isEmpty()) throw new UsernameNotFoundException("User by email " + email + " not found");
-        return account.get();
+        return repository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User by email " + email + " not found"));
     }
 
     @Override

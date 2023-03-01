@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,8 +34,11 @@ public class AnimalService extends AbstractService<Animal, AnimalRepository, Ani
     @Override
     public void delete(Long id) {
         Animal entity = getEntityOrThrow(id);
-        if (!entity.getVisitedLocations().isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        if (!entity.getVisitedLocations().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+     }
         try {
+            entity.getAnimalTypes().clear();
             repository.delete(entity);
         } catch (DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.valueOf(400));
@@ -90,6 +92,10 @@ public class AnimalService extends AbstractService<Animal, AnimalRepository, Ani
 
     public AnimalDto updateEntity(Long id, AnimalUpdateRequest dto) {
         Animal entity = getEntityOrThrow(id);
+        if (!entity.getVisitedLocations().isEmpty()
+                && entity.getVisitedLocations().get(0).getLocationPoint().getId().equals(dto.getChippingLocationId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         mapper.updateEntityFromDto(entity, dto);
         try {
             return mapper.toDto(repository.save(entity));

@@ -47,7 +47,7 @@ public class Animal extends AbstractEntity {
     @ToString.Exclude
     private List<AnimalVisitedLocation> visitedLocations;
     private OffsetDateTime deathDateTime;
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "animal_animal_type",
             joinColumns = {@JoinColumn(name = "animal_id")},

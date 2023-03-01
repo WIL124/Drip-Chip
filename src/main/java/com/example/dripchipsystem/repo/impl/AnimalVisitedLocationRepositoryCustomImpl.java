@@ -2,14 +2,11 @@ package com.example.dripchipsystem.repo.impl;
 
 import com.example.dripchipsystem.model.Animal;
 import com.example.dripchipsystem.model.AnimalVisitedLocation;
-import com.example.dripchipsystem.repo.AnimalVisitedLocationRepositoryCustom;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
