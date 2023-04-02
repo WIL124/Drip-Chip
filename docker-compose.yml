@@ -24,14 +24,13 @@ services:
       - POSTGRES_PASSWORD=postgres
     healthcheck:
       test: curl http://localhost:8080 || exit 0
-      interval: 60s
+      interval: 10s
       retries: 5
-      start_period: 60s
-      timeout: 60s
-
+      start_period: 15s
+      timeout: 10s
     # Сервис для разворачивания контейнера с автотестами
   tests:
-    image: mrexpen/planet_olymp_phase1
+    image: mrexpen/planet_olymp_phase2
     pull_policy: always
     ports:
       - "8090:8080"
@@ -40,4 +39,4 @@ services:
           condition: service_healthy
     environment:
       SERVER_URL: http://webapi:8080
-      STAGE: all
+      STAGE: 0
