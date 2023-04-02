@@ -1,12 +1,12 @@
 package com.example.dripchipsystem.mapper.impl;
 
-import com.example.dripchipsystem.dto.impl.AnimalTypeDto;
-import com.example.dripchipsystem.mapper.AbstractMapper;
+import com.example.dripchipsystem.dto.childs.AnimalTypeDto;
+import com.example.dripchipsystem.mapper.Mapper;
 import com.example.dripchipsystem.model.AnimalType;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AnimalTypeMapper extends AbstractMapper<AnimalType, AnimalTypeDto> {
+public class AnimalTypeMapper implements Mapper<AnimalType, AnimalTypeDto> {
     @Override
     public AnimalType entityFromDto(AnimalTypeDto dto) {
         return new AnimalType(dto.getType());

@@ -10,7 +10,6 @@ import java.time.OffsetDateTime;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "animal_visited_locations")
 @Table(name = "animal_visited_locations")
@@ -25,6 +24,11 @@ public class AnimalVisitedLocation extends AbstractEntity {
     @JoinColumn(name = "animal_id", table = "animal_visited_locations")
     @ToString.Exclude
     private Animal animal;
+
+    public AnimalVisitedLocation(LocationPoint locationPoint, Animal animal) {
+        this.locationPoint = locationPoint;
+        this.animal = animal;
+    }
 
     @Builder
     public AnimalVisitedLocation(Long id, OffsetDateTime dateTimeOfVisitLocationPoint, LocationPoint locationPoint, Animal animal) {

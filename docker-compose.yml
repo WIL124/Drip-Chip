@@ -12,19 +12,23 @@ services:
       - POSTGRES_PASSWORD=postgres
   # Сервис для разворачивания контейнера с приложением
   webapi:
-    image: openjdk:11-jdk
+    image: drip-chip
     hostname: webapi
     ports:
       - "8080:8080"
     depends_on:
       - database
-    volumes:
-      - ./target/Drip-Chip-System-0.0.1-SNAPSHOT.jar:/opt/service.jar
-    command: java -jar /opt/service.jar
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/animal-chipization
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: curl http://localhost:8080 || exit 0
+      interval: 60s
+      retries: 5
+      start_period: 60s
+      timeout: 60s
+
     # Сервис для разворачивания контейнера с автотестами
   tests:
     image: mrexpen/planet_olymp_phase1
@@ -32,7 +36,8 @@ services:
     ports:
       - "8090:8080"
     depends_on:
-      - webapi
+        webapi:
+          condition: service_healthy
     environment:
       SERVER_URL: http://webapi:8080
       STAGE: all

@@ -1,16 +1,14 @@
-package com.example.dripchipsystem;
+package com.example.dripchipsystem.security;
 
-import com.example.dripchipsystem.dto.impl.AccountDto;
+import com.example.dripchipsystem.dto.childs.AccountDto;
 import com.example.dripchipsystem.service.impl.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.server.ResponseStatusException;
 
 @Component("userSecurity")
 @AllArgsConstructor
-@Validated
 public class UserSecurity {
     private AccountService accountService;
 

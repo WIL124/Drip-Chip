@@ -6,7 +6,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class UpdateAnimalTypeDto {
+public class UpdateAnimalTypeRequest {
     @NotNull
     @DecimalMin(value = "0", inclusive = false)
     private Long oldTypeId;

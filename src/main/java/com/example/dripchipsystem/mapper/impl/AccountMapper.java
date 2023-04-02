@@ -1,17 +1,15 @@
 package com.example.dripchipsystem.mapper.impl;
 
-import com.example.dripchipsystem.dto.impl.AccountDto;
-import com.example.dripchipsystem.mapper.AbstractMapper;
+import com.example.dripchipsystem.dto.childs.AccountDto;
+import com.example.dripchipsystem.mapper.Mapper;
 import com.example.dripchipsystem.model.Account;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.Cipher;
-
 @Component
 @AllArgsConstructor
-public class AccountMapper extends AbstractMapper<Account, AccountDto> {
+public class AccountMapper implements Mapper<Account, AccountDto> {
     private PasswordEncoder passwordEncoder;
 
     @Override

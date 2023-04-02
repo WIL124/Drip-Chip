@@ -1,8 +1,8 @@
 package com.example.dripchipsystem.endpoint.impl;
 
 import com.example.dripchipsystem.dto.AnimalUpdateRequest;
-import com.example.dripchipsystem.dto.UpdateAnimalTypeDto;
-import com.example.dripchipsystem.dto.impl.AnimalDto;
+import com.example.dripchipsystem.dto.UpdateAnimalTypeRequest;
+import com.example.dripchipsystem.dto.childs.AnimalDto;
 import com.example.dripchipsystem.endpoint.AbstractEndpoint;
 import com.example.dripchipsystem.model.Gender;
 import com.example.dripchipsystem.model.LifeStatus;
@@ -16,7 +16,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -79,7 +78,7 @@ public class AnimalEndpoint
 
     @PutMapping("/{animalId}/types")
     public AnimalDto updateType(@PathVariable @NotNull @Positive Long animalId,
-                                @RequestBody @Valid UpdateAnimalTypeDto updateAnimalTypeDto) {
-        return service.updateAnimalType(animalId, updateAnimalTypeDto);
+                                @RequestBody @Valid UpdateAnimalTypeRequest updateAnimalTypeRequest) {
+        return service.updateAnimalType(animalId, updateAnimalTypeRequest);
     }
 }

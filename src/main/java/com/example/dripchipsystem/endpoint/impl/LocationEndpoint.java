@@ -1,6 +1,6 @@
 package com.example.dripchipsystem.endpoint.impl;
 
-import com.example.dripchipsystem.dto.impl.LocationPointDto;
+import com.example.dripchipsystem.dto.childs.LocationPointDto;
 import com.example.dripchipsystem.endpoint.AbstractEndpoint;
 import com.example.dripchipsystem.service.impl.LocationService;
 import org.springframework.http.HttpStatus;

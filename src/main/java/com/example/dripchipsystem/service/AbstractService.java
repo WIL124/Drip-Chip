@@ -21,7 +21,7 @@ public abstract class AbstractService
     protected MAPPER mapper;
 
     public DTO getEntity(Long id) {
-        return mapper.toDto(getEntityOrThrow(id));
+        return mapper.toDto(getEntityOrThrow(id, repository));
     }
 
 
@@ -37,18 +37,17 @@ public abstract class AbstractService
     }
 
     public void delete(Long id) {
-        ENTITY entity = getEntityOrThrow(id);
+        ENTITY entity = getEntityOrThrow(id, repository);
         try {
             repository.delete(entity);
         } catch (DataIntegrityViolationException ex) {
-            throw new ResponseStatusException(HttpStatus.valueOf(400));
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @Override
     public DTO updateEntity(Long id, DTO dto) {
-        ENTITY entity = getEntityOrThrow(id);
+        ENTITY entity = getEntityOrThrow(id, repository);
         mapper.updateEntityFromDto(entity, dto);
         try {
             return mapper.toDto(repository.save(entity));
@@ -57,7 +56,7 @@ public abstract class AbstractService
         }
     }
 
-    protected ENTITY getEntityOrThrow(Long id) {
+    protected <R extends CommonRepository<E>, E extends AbstractEntity> E getEntityOrThrow(Long id, R repository) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }

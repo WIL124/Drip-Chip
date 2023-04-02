@@ -1,6 +1,6 @@
 package com.example.dripchipsystem.service.impl;
 
-import com.example.dripchipsystem.dto.impl.LocationPointDto;
+import com.example.dripchipsystem.dto.childs.LocationPointDto;
 import com.example.dripchipsystem.mapper.impl.LocationPointMapper;
 import com.example.dripchipsystem.model.LocationPoint;
 import com.example.dripchipsystem.repo.LocationRepository;

@@ -1,8 +1,8 @@
 package com.example.dripchipsystem.service.impl;
 
 import com.example.dripchipsystem.dto.AnimalUpdateRequest;
-import com.example.dripchipsystem.dto.UpdateAnimalTypeDto;
-import com.example.dripchipsystem.dto.impl.AnimalDto;
+import com.example.dripchipsystem.dto.UpdateAnimalTypeRequest;
+import com.example.dripchipsystem.dto.childs.AnimalDto;
 import com.example.dripchipsystem.mapper.impl.AnimalMapper;
 import com.example.dripchipsystem.model.Animal;
 import com.example.dripchipsystem.model.AnimalType;
@@ -33,15 +33,14 @@ public class AnimalService extends AbstractService<Animal, AnimalRepository, Ani
 
     @Override
     public void delete(Long id) {
-        Animal entity = getEntityOrThrow(id);
-        if (!entity.getVisitedLocations().isEmpty()){
+        Animal entity = getEntityOrThrow(id, repository);
+        if (!entity.getVisitedLocations().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-     }
+        }
         try {
-            entity.getAnimalTypes().clear();
             repository.delete(entity);
         } catch (DataIntegrityViolationException ex) {
-            throw new ResponseStatusException(HttpStatus.valueOf(400));
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -55,9 +54,8 @@ public class AnimalService extends AbstractService<Animal, AnimalRepository, Ani
     }
 
     public AnimalDto addTypeToAnimal(Long animalId, Long typeId) {
-        Animal animal = getEntityOrThrow(animalId);
-        AnimalType animalType = animalTypeRepository.findById(typeId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Animal animal = getEntityOrThrow(animalId, repository);
+        AnimalType animalType = getEntityOrThrow(typeId, animalTypeRepository);
         animal.getAnimalTypes().add(animalType);
         try {
             return mapper.toDto(repository.save(animal));
@@ -67,31 +65,28 @@ public class AnimalService extends AbstractService<Animal, AnimalRepository, Ani
     }
 
     public AnimalDto deleteTypeFromAnimal(Long animalId, Long typeId) {
-        Animal animal = getEntityOrThrow(animalId);
+        Animal animal = getEntityOrThrow(animalId, repository);
         if (animal.getAnimalTypes().size() == 1) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        AnimalType animalType = animalTypeRepository.findById(typeId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        AnimalType animalType = getEntityOrThrow(typeId, animalTypeRepository);
         if (!animal.getAnimalTypes().remove(animalType)) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         return mapper.toDto(repository.save(animal));
     }
 
-    public AnimalDto updateAnimalType(Long animalId, UpdateAnimalTypeDto dto) {
-        Animal animal = getEntityOrThrow(animalId);
-        AnimalType oldType = animal.getAnimalTypes().stream()
-                .filter(type -> type.getId().equals(dto.getOldTypeId()))
-                .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        animal.getAnimalTypes().remove(oldType);
+    public AnimalDto updateAnimalType(Long animalId, UpdateAnimalTypeRequest dto) {
+        Animal animal = getEntityOrThrow(animalId, repository);
+        AnimalType oldType = getEntityOrThrow(dto.getOldTypeId(), animalTypeRepository);
+        AnimalType newAnimalType = getEntityOrThrow(dto.getNewTypeId(), animalTypeRepository);
 
-        AnimalType newAnimalType = animalTypeRepository.findById(dto.getNewTypeId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        if (!animal.getAnimalTypes().contains(oldType)) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         if (animal.getAnimalTypes().contains(newAnimalType)) throw new ResponseStatusException(HttpStatus.CONFLICT);
+
+        animal.getAnimalTypes().remove(oldType);
         animal.getAnimalTypes().add(newAnimalType);
         return mapper.toDto(animal);
     }
 
     public AnimalDto updateEntity(Long id, AnimalUpdateRequest dto) {
-        Animal entity = getEntityOrThrow(id);
+        Animal entity = getEntityOrThrow(id, repository);
         if (!entity.getVisitedLocations().isEmpty()
                 && entity.getVisitedLocations().get(0).getLocationPoint().getId().equals(dto.getChippingLocationId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

@@ -20,12 +20,14 @@ public class GlobalExceptionHandler {
     protected String handle(ConstraintViolationException ex) {
         return ex.getLocalizedMessage();
     }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     @ExceptionHandler(EntityNotFoundException.class)
     protected String handle(EntityNotFoundException ex) {
         return ex.getLocalizedMessage();
     }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     @ExceptionHandler(ConversionFailedException.class)

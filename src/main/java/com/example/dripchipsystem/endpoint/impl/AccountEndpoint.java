@@ -1,10 +1,8 @@
 package com.example.dripchipsystem.endpoint.impl;
 
-import com.example.dripchipsystem.dto.impl.AccountDto;
+import com.example.dripchipsystem.dto.childs.AccountDto;
 import com.example.dripchipsystem.endpoint.AbstractEndpoint;
-import com.example.dripchipsystem.model.Account;
 import com.example.dripchipsystem.service.impl.AccountService;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

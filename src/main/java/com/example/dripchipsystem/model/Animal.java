@@ -5,12 +5,9 @@ import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -55,6 +52,18 @@ public class Animal extends AbstractEntity {
     )
     @ToString.Exclude
     private List<AnimalType> animalTypes;
+
+    public boolean isDead() {
+        return lifeStatus == LifeStatus.DEAD;
+    }
+
+    public AnimalVisitedLocation getLastVisit() {
+        return visitedLocations.size() > 0 ? visitedLocations.get(visitedLocations.size() - 1) : null;
+    }
+
+    public boolean hasVisits() {
+        return !visitedLocations.isEmpty();
+    }
 
     @Override
     public boolean equals(Object o) {

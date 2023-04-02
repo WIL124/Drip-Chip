@@ -1,7 +1,7 @@
 package com.example.dripchipsystem.endpoint.impl;
 
 import com.example.dripchipsystem.dto.UpdateVisitedLocationRequest;
-import com.example.dripchipsystem.dto.impl.AnimalVisitedLocationDto;
+import com.example.dripchipsystem.dto.childs.AnimalVisitedLocationDto;
 import com.example.dripchipsystem.endpoint.AbstractEndpoint;
 import com.example.dripchipsystem.service.impl.AnimalVisitedLocationsService;
 import org.springframework.format.annotation.DateTimeFormat;

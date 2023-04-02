@@ -1,6 +1,6 @@
 package com.example.dripchipsystem.service.impl;
 
-import com.example.dripchipsystem.dto.impl.AccountDto;
+import com.example.dripchipsystem.dto.childs.AccountDto;
 import com.example.dripchipsystem.mapper.impl.AccountMapper;
 import com.example.dripchipsystem.model.Account;
 import com.example.dripchipsystem.repo.AccountRepository;
@@ -41,7 +41,7 @@ public class AccountService
 
     @Override
     public void delete(Long id) {
-        Account entity = getEntityOrThrow(id);
+        Account entity = getEntityOrThrow(id, repository);
         if (!entity.getChippedAnimals().isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         try {
             repository.delete(entity);

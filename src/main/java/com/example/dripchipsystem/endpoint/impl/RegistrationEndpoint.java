@@ -1,6 +1,6 @@
 package com.example.dripchipsystem.endpoint.impl;
 
-import com.example.dripchipsystem.dto.impl.AccountDto;
+import com.example.dripchipsystem.dto.childs.AccountDto;
 import com.example.dripchipsystem.endpoint.AbstractEndpoint;
 import com.example.dripchipsystem.service.impl.AccountService;
 import org.springframework.http.HttpStatus;

@@ -1,8 +1,8 @@
 package com.example.dripchipsystem.mapper.impl;
 
 import com.example.dripchipsystem.dto.AnimalUpdateRequest;
-import com.example.dripchipsystem.dto.impl.AnimalDto;
-import com.example.dripchipsystem.mapper.AbstractMapper;
+import com.example.dripchipsystem.dto.childs.AnimalDto;
+import com.example.dripchipsystem.mapper.Mapper;
 import com.example.dripchipsystem.model.AbstractEntity;
 import com.example.dripchipsystem.model.Animal;
 import com.example.dripchipsystem.model.LifeStatus;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
-public class AnimalMapper extends AbstractMapper<Animal, AnimalDto> {
+public class AnimalMapper implements Mapper<Animal, AnimalDto> {
     private AnimalTypeRepository animalTypeRepository;
     private AccountRepository accountRepository;
     private LocationRepository locationRepository;
@@ -51,7 +51,10 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDto> {
     public AnimalDto toDto(Animal entity) {
         List<Long> list = entity.getVisitedLocations() == null ?
                 new ArrayList<>() :
-                entity.getVisitedLocations().stream().mapToLong(AbstractEntity::getId).boxed().collect(Collectors.toList());
+                entity.getVisitedLocations().stream()
+                        .mapToLong(AbstractEntity::getId)
+                        .boxed()
+                        .collect(Collectors.toList());
         return AnimalDto.builder()
                 .id(entity.getId())
                 .chipperId(entity.getChipper().getId())
@@ -86,7 +89,7 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDto> {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
         entity.setChippingLocation(locationRepository.findById(dto.getChippingLocationId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
-        if (dto.getLifeStatus() == LifeStatus.DEAD) {
+        if (dto.getLifeStatus() == LifeStatus.DEAD && entity.getDeathDateTime() == null) {
             entity.setDeathDateTime(OffsetDateTime.now());
         }
         entity.setLifeStatus(dto.getLifeStatus());

@@ -22,8 +22,6 @@ public class AnimalVisitedLocationRepositoryCustomImpl implements AnimalVisitedL
         CriteriaQuery<AnimalVisitedLocation> criteriaQuery = cb.createQuery(AnimalVisitedLocation.class);
         Root<AnimalVisitedLocation> locationRoot = criteriaQuery.from(AnimalVisitedLocation.class);
 
-        Join<AnimalVisitedLocation, Animal> join = locationRoot.join("animal");
-
         List<Predicate> predicates = new ArrayList<>();
         if (startDateTime != null) {
             predicates.add(cb.greaterThanOrEqualTo(locationRoot.get("startDateTime"), startDateTime));
@@ -31,9 +29,11 @@ public class AnimalVisitedLocationRepositoryCustomImpl implements AnimalVisitedL
         if (endDateTime != null) {
             predicates.add(cb.lessThanOrEqualTo(locationRoot.get("endDateTime"), endDateTime));
         }
-        predicates.add(join.getOn());
-        Order order = cb.asc(locationRoot.get("id"));
 
+        Join<AnimalVisitedLocation, Animal> join = locationRoot.join("animal");
+        predicates.add(join.getOn());
+
+        Order order = cb.asc(locationRoot.get("id"));
         criteriaQuery
                 .where(predicates.toArray(new Predicate[0]))
                 .orderBy(order);

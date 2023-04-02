@@ -1,10 +1,8 @@
-package com.example.dripchipsystem.dto.impl;
+package com.example.dripchipsystem.dto.childs;
 
 import com.example.dripchipsystem.dto.AbstractDto;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

@@ -1,13 +1,13 @@
 package com.example.dripchipsystem.mapper.impl;
 
-import com.example.dripchipsystem.dto.impl.AnimalVisitedLocationDto;
-import com.example.dripchipsystem.mapper.AbstractMapper;
+import com.example.dripchipsystem.dto.childs.AnimalVisitedLocationDto;
+import com.example.dripchipsystem.mapper.Mapper;
 import com.example.dripchipsystem.model.AnimalVisitedLocation;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AnimalVisitedLocationMapper
-        extends AbstractMapper<AnimalVisitedLocation, AnimalVisitedLocationDto> {
+        implements Mapper<AnimalVisitedLocation, AnimalVisitedLocationDto> {
     @Override
     public AnimalVisitedLocation entityFromDto(AnimalVisitedLocationDto dto) {
         return null;

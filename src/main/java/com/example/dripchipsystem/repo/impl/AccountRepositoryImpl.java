@@ -31,11 +31,9 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
             predicates.add(cb.like(cb.upper(accountRoot.get("email")), "%" + email.toUpperCase() + "%"));
         }
         Order order = cb.asc(accountRoot.get("id"));
-
         criteriaQuery
                 .where(predicates.toArray(new Predicate[0]))
                 .orderBy(order);
-
         return entityManager.createQuery(criteriaQuery)
                 .setFirstResult(from)
                 .setMaxResults(size)

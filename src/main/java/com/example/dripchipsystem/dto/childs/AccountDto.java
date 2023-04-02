@@ -1,4 +1,4 @@
-package com.example.dripchipsystem.dto.impl;
+package com.example.dripchipsystem.dto.childs;
 
 import com.example.dripchipsystem.dto.AbstractDto;
 import lombok.Builder;

@@ -1,9 +1,8 @@
-package com.example.dripchipsystem.dto.impl;
+package com.example.dripchipsystem.dto.childs;
 
 import com.example.dripchipsystem.dto.AbstractDto;
 import com.example.dripchipsystem.model.Gender;
 import com.example.dripchipsystem.model.LifeStatus;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
