@@ -41,5 +41,6 @@ public class AccountMapper implements Mapper<Account, AccountDto> {
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
+        entity.setRole(Role.valueOf(dto.getRole()));
     }
 }

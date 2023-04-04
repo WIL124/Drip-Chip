@@ -27,6 +27,7 @@ public class SecurityConfig {
                 .authorizeRequests(auth -> {
                     auth.expressionHandler(webExpressionHandler());
                     auth.antMatchers("/registration").anonymous();
+                    auth.antMatchers(HttpMethod.GET, "/accounts/search").hasAuthority("ADMIN");
                     auth.antMatchers(HttpMethod.GET, "/accounts/{userId}")
                             .access("@securityMethods.hasUserId(authentication, #userId) or hasAuthority('ADMIN')");
                     auth.antMatchers(HttpMethod.DELETE, "/accounts/{userId}")
