@@ -12,7 +12,9 @@ services:
       - POSTGRES_PASSWORD=postgres
   # Сервис для разворачивания контейнера с приложением
   webapi:
-    image: drip-chip
+    build:
+      dockerfile: Dockerfile
+      context: .
     hostname: webapi
     ports:
       - "8080:8080"

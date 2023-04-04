@@ -1,15 +1,12 @@
 package com.example.dripchipsystem.account.mapper;
 
 import com.example.dripchipsystem.account.dto.AccountDto;
+import com.example.dripchipsystem.account.model.Account;
 import com.example.dripchipsystem.account.model.Role;
 import com.example.dripchipsystem.common.mapper.Mapper;
-import com.example.dripchipsystem.account.model.Account;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 @AllArgsConstructor
@@ -23,6 +20,7 @@ public class AccountMapper implements Mapper<Account, AccountDto> {
                 .lastName(dto.getLastName())
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
+                .role(dto.getRole() == null ? Role.USER : Role.valueOf(dto.getRole()))
                 .build();
     }
 
@@ -33,7 +31,7 @@ public class AccountMapper implements Mapper<Account, AccountDto> {
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
                 .email(entity.getEmail())
-                .password(null)
+                .role(entity.getRole().getName())
                 .build();
     }
 

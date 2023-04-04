@@ -1,41 +1,45 @@
 package com.example.dripchipsystem.security;
 
-import com.example.dripchipsystem.account.dto.AccountDto;
-import com.example.dripchipsystem.account.service.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.expression.SecurityExpressionHandler;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 
 @Configuration
 @AllArgsConstructor
 public class SecurityConfig {
-    private AccountService accountService;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests(auth -> {
+                    auth.expressionHandler(webExpressionHandler());
                     auth.antMatchers("/registration").anonymous();
-                    auth.antMatchers(HttpMethod.GET).access("isAnonymous() || isAuthenticated()");
+                    auth.antMatchers(HttpMethod.GET, "/accounts/{userId}")
+                            .access("@securityMethods.hasUserId(authentication, #userId) or hasAuthority('ADMIN')");
                     auth.antMatchers(HttpMethod.DELETE, "/accounts/{userId}")
-                            .access("@securityConfig.hasUserId(authentication, #userId)");
+                            .access("@securityMethods.hasUserId(authentication, #userId) or hasAuthority('ADMIN')");
                     auth.antMatchers(HttpMethod.PUT, "/accounts/{userId}")
-                            .access("@securityConfig.hasUserId(authentication, #userId)");
+                            .access("@securityMethods.hasUserId(authentication, #userId) or hasAuthority('ADMIN')");
+                    auth.antMatchers(HttpMethod.POST, "/accounts").hasAuthority("ADMIN");
                     auth.anyRequest().authenticated();
                 })
                 .httpBasic();
         return http.build();
     }
+
 
     @Bean
     public String AuthorizationHeader() {
@@ -52,15 +56,17 @@ public class SecurityConfig {
                 .build();
     }
 
-    public boolean hasUserId(Authentication authentication, Long userId) {
-        if (userId <= 0) return true;
-        String email = authentication.getName();
-        AccountDto dto;
-        try {
-            dto = accountService.getEntity(userId);
-        } catch (ResponseStatusException ex) {
-            return false;
-        }
-        return email.equals(dto.getEmail());
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_CHIPPER\nROLE_CHIPPER > ROLE_USER");
+        return roleHierarchy;
+    }
+
+    @Bean
+    public SecurityExpressionHandler<FilterInvocation> webExpressionHandler() {
+        DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
+        defaultWebSecurityExpressionHandler.setRoleHierarchy(roleHierarchy());
+        return defaultWebSecurityExpressionHandler;
     }
 }

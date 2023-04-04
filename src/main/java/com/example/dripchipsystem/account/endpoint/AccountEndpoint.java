@@ -3,6 +3,7 @@ package com.example.dripchipsystem.account.endpoint;
 import com.example.dripchipsystem.account.dto.AccountDto;
 import com.example.dripchipsystem.common.endpoint.AbstractEndpoint;
 import com.example.dripchipsystem.account.service.AccountService;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,11 @@ public class AccountEndpoint
                             @RequestParam(name = "from", required = false, defaultValue = "0") @Min(0) Integer from,
                             @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
         return service.search(firstName, lastName, email, from, size);
+    }
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public AccountDto create(@RequestBody AccountDto accountDto){
+        return service.create(accountDto);
     }
 
     @GetMapping("/{id}")

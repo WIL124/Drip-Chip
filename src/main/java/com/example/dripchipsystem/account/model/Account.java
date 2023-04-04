@@ -1,17 +1,17 @@
 package com.example.dripchipsystem.account.model;
 
-import com.example.dripchipsystem.common.model.AbstractEntity;
 import com.example.dripchipsystem.animal.model.Animal;
+import com.example.dripchipsystem.common.model.AbstractEntity;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,19 +33,12 @@ public class Account extends AbstractEntity implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "chipper_id")
     private List<Animal> chippedAnimals;
-    @ManyToMany
-    @JoinTable(
-            name = "accounts_roles",
-            joinColumns = @JoinColumn(
-                    name = "account_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
-
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return List.of(new SimpleGrantedAuthority(role.getName()));
     }
 
     @Override

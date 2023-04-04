@@ -37,7 +37,5 @@ public class AccountDto extends AbstractDto {
     @NotNull
     @NotBlank
     private String password;
-    @NotNull
-    @NotBlank
     private String role;
 }
