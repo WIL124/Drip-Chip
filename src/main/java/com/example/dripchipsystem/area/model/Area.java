@@ -1,6 +1,7 @@
 package com.example.dripchipsystem.area.model;
 
 import com.example.dripchipsystem.common.model.AbstractEntity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,9 +11,11 @@ import java.util.List;
 @Entity(name = "area")
 @Table(name = "area")
 @Data
+@AllArgsConstructor
 public class Area extends AbstractEntity {
     private String name;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "area")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "area_id")
     private List<AreaPoint> areaPoints;
 
     @Builder
@@ -23,6 +26,5 @@ public class Area extends AbstractEntity {
     }
 
     public Area() {
-
     }
 }

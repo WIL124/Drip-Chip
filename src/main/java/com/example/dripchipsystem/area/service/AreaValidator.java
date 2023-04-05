@@ -13,10 +13,14 @@ import java.util.List;
 public class AreaValidator {
     public boolean validateArea(List<AreaPointDto> areaPoints) {
         areaPoints.add(areaPoints.get(0));
-        return validate(areaPoints.stream()
+        if (!validate(areaPoints.stream()
                 .map(point -> new Coordinate(point.getLatitude(), point.getLongitude()))
                 .toList()
-                .toArray(new Coordinate[0]));
+                .toArray(new Coordinate[0]))){
+            return false;
+        }
+        areaPoints.remove( areaPoints.size() -1);
+        return true;
     }
 
     private boolean validate(Coordinate[] coordinates) {

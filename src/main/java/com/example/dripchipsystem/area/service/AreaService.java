@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class AreaService extends AbstractService<Area, AreaRepository, AreaMapper, AreaDto> {
     private final AreaValidator areaValidator;
     private final AreaPointRepository areaPointRepository;
+
     public AreaService(AreaRepository repository, AreaMapper mapper, AreaValidator areaValidator, AreaPointRepository areaPointRepository) {
         super(repository, mapper);
         this.areaValidator = areaValidator;
