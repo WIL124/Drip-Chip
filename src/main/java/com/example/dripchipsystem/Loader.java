@@ -1,9 +1,6 @@
 package com.example.dripchipsystem;
 
 import com.example.dripchipsystem.account.dto.AccountDto;
-import com.example.dripchipsystem.account.model.Account;
-import com.example.dripchipsystem.account.model.Role;
-import com.example.dripchipsystem.account.repository.AccountRepository;
 import com.example.dripchipsystem.account.service.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;

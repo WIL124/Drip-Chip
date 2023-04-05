@@ -1,38 +1,28 @@
 package com.example.dripchipsystem.area.service;
 
-import com.example.dripchipsystem.locationPoint.dto.LocationPointDto;
+import com.example.dripchipsystem.area.dto.AreaPointDto;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LinearRing;
+import org.locationtech.jts.geom.Polygon;
 import org.springframework.stereotype.Component;
 
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Path2D;
-import java.awt.geom.PathIterator;
 import java.util.List;
 
 @Component
 public class AreaValidator {
-    public boolean validateArea(List<LocationPointDto> areaPoints) {
-        Path2D path = new Path2D.Double();
-//        if (areaPoints.size() < 3) return false;
-        LocationPointDto firstPoint = areaPoints.remove(0);
-        path.moveTo(firstPoint.getLatitude(), firstPoint.getLongitude());
-        for (LocationPointDto point : areaPoints) {
-            path.lineTo(point.getLatitude(), point.getLatitude());
-        }
-        path.closePath();
-        if (!validateSelfIntersects(path)) {
-            return false;
-        }
-        return true;
+    public boolean validateArea(List<AreaPointDto> areaPoints) {
+        areaPoints.add(areaPoints.get(0));
+        return validate(areaPoints.stream()
+                .map(point -> new Coordinate(point.getLatitude(), point.getLongitude()))
+                .toList()
+                .toArray(new Coordinate[0]));
     }
 
-    private boolean validateSelfIntersects(Path2D path2D) {
-        PathIterator pathIterator = path2D.getPathIterator(null);
-        double[] coordinates = new double[6];
-        GeneralPath generalPath = new GeneralPath();
-        generalPath.
-        for (: pathIterator) {
-
-        }
-        return true;
+    private boolean validate(Coordinate[] coordinates) {
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Polygon polygonFromCoordinates = geometryFactory.createPolygon(coordinates);
+        LinearRing linearRing = polygonFromCoordinates.getExteriorRing();
+        return linearRing.isValid();
     }
 }

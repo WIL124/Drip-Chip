@@ -3,6 +3,7 @@ package com.example.dripchipsystem.area.endpoint;
 import com.example.dripchipsystem.area.dto.AreaDto;
 import com.example.dripchipsystem.area.service.AreaService;
 import com.example.dripchipsystem.common.endpoint.AbstractEndpoint;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ public class AreaEndpoint extends AbstractEndpoint<AreaService, AreaDto> {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public AreaDto create(@RequestBody @NotNull AreaDto areaDto) {
         return service.create(areaDto);
     }

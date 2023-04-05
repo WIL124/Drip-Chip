@@ -4,10 +4,7 @@ import com.example.dripchipsystem.animalVisitedLocation.model.AnimalVisitedLocat
 import com.example.dripchipsystem.common.repository.CommonRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.stream.Stream;
-
 @Repository
 public interface AnimalVisitedLocationRepository
         extends CommonRepository<AnimalVisitedLocation> {
-    Stream<AnimalVisitedLocation> streamAll();
 }

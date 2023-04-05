@@ -8,6 +8,7 @@ import com.example.dripchipsystem.locationPoint.model.LocationPoint;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -30,6 +31,7 @@ public class Animal extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private LifeStatus lifeStatus = LifeStatus.ALIVE;
     @CreationTimestamp
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime chippingDateTime;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chipper_id")
@@ -45,7 +47,6 @@ public class Animal extends AbstractEntity {
             joinColumns = {@JoinColumn(name = "animal_id", table = "animal_visited_locations")},
             inverseJoinColumns = {@JoinColumn(name = "id", table = "animal_visited_locations")}
     )
-//    @JoinColumn(name = "visited_locations_id", table = "animal_visited_locations")
     @ToString.Exclude
     private List<AnimalVisitedLocation> visitedLocations;
     private OffsetDateTime deathDateTime;
