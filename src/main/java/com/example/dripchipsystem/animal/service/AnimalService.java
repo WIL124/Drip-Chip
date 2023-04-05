@@ -13,6 +13,8 @@ import com.example.dripchipsystem.animalType.repository.AnimalTypeRepository;
 import com.example.dripchipsystem.common.service.AbstractService;
 import com.example.dripchipsystem.common.service.CommonService;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
