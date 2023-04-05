@@ -1,20 +1,18 @@
 package com.example.dripchipsystem.animal.service;
 
-import com.example.dripchipsystem.animal.dto.AnimalUpdateRequest;
-import com.example.dripchipsystem.animalType.dto.UpdateAnimalTypeRequest;
 import com.example.dripchipsystem.animal.dto.AnimalDto;
+import com.example.dripchipsystem.animal.dto.AnimalUpdateRequest;
 import com.example.dripchipsystem.animal.mapper.AnimalMapper;
 import com.example.dripchipsystem.animal.model.Animal;
-import com.example.dripchipsystem.animalType.model.AnimalType;
 import com.example.dripchipsystem.animal.model.Gender;
 import com.example.dripchipsystem.animal.model.LifeStatus;
 import com.example.dripchipsystem.animal.repository.AnimalRepository;
+import com.example.dripchipsystem.animalType.dto.UpdateAnimalTypeRequest;
+import com.example.dripchipsystem.animalType.model.AnimalType;
 import com.example.dripchipsystem.animalType.repository.AnimalTypeRepository;
 import com.example.dripchipsystem.common.service.AbstractService;
 import com.example.dripchipsystem.common.service.CommonService;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;

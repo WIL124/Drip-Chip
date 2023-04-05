@@ -29,7 +29,7 @@ public abstract class AbstractService
     public DTO create(DTO dto) {
         ENTITY entity = mapper.entityFromDto(dto);
         try {
-            repository.save(entity);
+            entity = repository.save(entity);
         } catch (DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }

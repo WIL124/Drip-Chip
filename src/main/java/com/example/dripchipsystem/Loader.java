@@ -14,6 +14,8 @@ public class Loader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        try {
+
         accountService.create(AccountDto.builder()
                 .firstName("adminFirstName")
                 .lastName("adminLastName")
@@ -35,5 +37,8 @@ public class Loader implements ApplicationRunner {
                 .password("qwerty123")
                 .role("USER")
                 .build());
+        }catch (Exception e){
+
+        }
     }
 }

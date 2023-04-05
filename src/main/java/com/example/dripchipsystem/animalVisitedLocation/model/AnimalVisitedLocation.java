@@ -8,7 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.OffsetDateTime;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -18,8 +18,8 @@ import java.time.OffsetDateTime;
 @Table(name = "animal_visited_locations")
 public class AnimalVisitedLocation extends AbstractEntity {
     @CreationTimestamp
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private OffsetDateTime dateTimeOfVisitLocationPoint;
+//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Timestamp dateTimeOfVisitLocationPoint;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "visited_locations_id", table = "animal_visited_locations")
     @ToString.Exclude
@@ -35,7 +35,7 @@ public class AnimalVisitedLocation extends AbstractEntity {
     }
 
     @Builder
-    public AnimalVisitedLocation(Long id, OffsetDateTime dateTimeOfVisitLocationPoint, LocationPoint locationPoint, Animal animal) {
+    public AnimalVisitedLocation(Long id, Timestamp dateTimeOfVisitLocationPoint, LocationPoint locationPoint, Animal animal) {
         super(id);
         this.dateTimeOfVisitLocationPoint = dateTimeOfVisitLocationPoint;
         this.locationPoint = locationPoint;

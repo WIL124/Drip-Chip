@@ -1,13 +1,13 @@
 package com.example.dripchipsystem.animal.mapper;
 
-import com.example.dripchipsystem.animal.dto.AnimalUpdateRequest;
+import com.example.dripchipsystem.account.repository.AccountRepository;
 import com.example.dripchipsystem.animal.dto.AnimalDto;
-import com.example.dripchipsystem.common.mapper.Mapper;
-import com.example.dripchipsystem.common.model.AbstractEntity;
+import com.example.dripchipsystem.animal.dto.AnimalUpdateRequest;
 import com.example.dripchipsystem.animal.model.Animal;
 import com.example.dripchipsystem.animal.model.LifeStatus;
-import com.example.dripchipsystem.account.repository.AccountRepository;
 import com.example.dripchipsystem.animalType.repository.AnimalTypeRepository;
+import com.example.dripchipsystem.common.mapper.Mapper;
+import com.example.dripchipsystem.common.model.AbstractEntity;
 import com.example.dripchipsystem.locationPoint.repository.LocationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,7 +59,7 @@ public class AnimalMapper implements Mapper<Animal, AnimalDto> {
         return AnimalDto.builder()
                 .id(entity.getId())
                 .chipperId(entity.getChipper().getId())
-                .chippingDateTime(entity.getChippingDateTime())
+                .chippingDateTime(OffsetDateTime.ofInstant(entity.getChippingDateTime().toInstant(), ZoneId.systemDefault()))
                 .lifeStatus(entity.getLifeStatus())
                 .gender(entity.getGender())
                 .length(entity.getLength())

@@ -35,11 +35,11 @@ public class AnimalVisitedLocationsService extends AbstractService<AnimalVisited
         Animal animal = getEntityOrThrow(animalId, animalRepository);
         return animal.getVisitedLocations().stream()
                 .filter(location -> startDateTime == null ||
-                        location.getDateTimeOfVisitLocationPoint().isAfter(startDateTime) ||
-                        location.getDateTimeOfVisitLocationPoint().isEqual(startDateTime))
+                        location.getDateTimeOfVisitLocationPoint().toLocalDateTime().isAfter(startDateTime.toLocalDateTime()) ||
+                        location.getDateTimeOfVisitLocationPoint().toLocalDateTime().isEqual(startDateTime.toLocalDateTime()))
                 .filter(location -> endDateTime == null ||
-                        location.getDateTimeOfVisitLocationPoint().isBefore(endDateTime) ||
-                        location.getDateTimeOfVisitLocationPoint().isEqual(endDateTime))
+                        location.getDateTimeOfVisitLocationPoint().toLocalDateTime().isBefore(endDateTime.toLocalDateTime()) ||
+                        location.getDateTimeOfVisitLocationPoint().toLocalDateTime().isEqual(endDateTime.toLocalDateTime()))
                 .sorted(Comparator.comparingLong(AbstractEntity::getId))
                 .skip(from)
                 .limit(size)

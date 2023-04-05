@@ -11,7 +11,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,8 +33,8 @@ public class Animal extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private LifeStatus lifeStatus = LifeStatus.ALIVE;
     @CreationTimestamp
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private OffsetDateTime chippingDateTime;
+//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Timestamp chippingDateTime;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chipper_id")
     @ToString.Exclude

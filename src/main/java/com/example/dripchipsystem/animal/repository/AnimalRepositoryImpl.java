@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
+import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +29,10 @@ public class AnimalRepositoryImpl implements AnimalRepositoryCustom {
 
         List<Predicate> predicates = new ArrayList<>();
         if (startDateTime != null) {
-            predicates.add(cb.greaterThanOrEqualTo(animalRoot.get("chippingDateTime"), startDateTime));
+            predicates.add(cb.greaterThanOrEqualTo(animalRoot.get("chippingDateTime"), Timestamp.from(startDateTime.toInstant()) ));
         }
         if (endDateTime != null) {
-            predicates.add(cb.lessThanOrEqualTo(animalRoot.get("chippingDateTime"), endDateTime));
+            predicates.add(cb.lessThanOrEqualTo(animalRoot.get("chippingDateTime"), Timestamp.from(endDateTime.toInstant())));
         }
         if (chipperId != null) {
             predicates.add(cb.equal(animalRoot.get("chipper").get("id"), chipperId));
