@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -17,10 +18,11 @@ import javax.persistence.Table;
 public class AreaPoint extends AbstractEntity {
     private double longitude;
     private double latitude;
-    private Integer areaId;
+    @Column(name = "area_id")
+    private Long areaId;
 
     @Builder
-    public AreaPoint(Long id, double longitude, double latitude, Integer areaId) {
+    public AreaPoint(Long id, double longitude, double latitude, Long areaId) {
         super(id);
         this.longitude = longitude;
         this.latitude = latitude;

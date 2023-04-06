@@ -20,7 +20,7 @@ public class AreaDto extends AbstractDto {
     @Valid
     @NotEmpty
     @NotNull
-    private List<AreaPointDto> areaPoints;
+    private List<@Valid AreaPointDto> areaPoints;
 
     @Builder
     public AreaDto(Long id ,String name, List<AreaPointDto> areaPoints) {

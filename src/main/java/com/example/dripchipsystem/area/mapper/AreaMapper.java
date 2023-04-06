@@ -15,13 +15,13 @@ public class AreaMapper implements Mapper<Area, AreaDto> {
     public Area entityFromDto(AreaDto dto) {
         return Area.builder()
                 .name(dto.getName())
-                .areaPoints(dto.getAreaPoints().stream()
-                        .map(areaPoint ->
-                                AreaPoint.builder()
-                                        .latitude(areaPoint.getLatitude())
-                                        .longitude(areaPoint.getLongitude())
-                                        .build())
-                        .collect(Collectors.toList()))
+//                .areaPoints(dto.getAreaPoints().stream()
+//                        .map(areaPoint ->
+//                                AreaPoint.builder()
+//                                        .latitude(areaPoint.getLatitude())
+//                                        .longitude(areaPoint.getLongitude())
+//                                        .build())
+//                        .collect(Collectors.toList()))
                 .build();
     }
 

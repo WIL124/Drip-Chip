@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Area extends AbstractEntity {
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "area_id")
     private List<AreaPoint> areaPoints;
 
