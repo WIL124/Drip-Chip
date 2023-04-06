@@ -16,16 +16,16 @@ import javax.persistence.Table;
 @Entity(name = "area_point")
 @Table(name = "area_point")
 public class AreaPoint extends AbstractEntity {
-    private double longitude;
-    private double latitude;
+    private double x;
+    private double y;
     @Column(name = "area_id")
     private Long areaId;
 
     @Builder
-    public AreaPoint(Long id, double longitude, double latitude, Long areaId) {
+    public AreaPoint(Long id, double x, double y, Long areaId) {
         super(id);
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.x = x;
+        this.y = y;
         this.areaId = areaId;
     }
 }

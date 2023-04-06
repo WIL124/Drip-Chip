@@ -1,6 +1,7 @@
 package com.example.dripchipsystem.locationPoint.dto;
 
 import com.example.dripchipsystem.common.dto.AbstractDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,6 +14,7 @@ public class LocationPointDto extends AbstractDto {
     @NotNull
     @Min(-90)
     @Max(90)
+    @JsonProperty("latitude")
     private Double latitude;
     @NotNull
     @Min(-180)

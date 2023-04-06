@@ -1,5 +1,6 @@
 package com.example.dripchipsystem.area.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -13,10 +14,12 @@ public class AreaPointDto {
     @NotNull
     @Min(-180)
     @Max(180)
-    private double longitude;
+    @JsonProperty("longitude")
+    private double x;
 
     @NotNull
     @Min(-90)
     @Max(90)
-    private double latitude;
+    @JsonProperty("latitude")
+    private double y;
 }

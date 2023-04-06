@@ -41,4 +41,4 @@ services:
           condition: service_healthy
     environment:
       SERVER_URL: http://webapi:8080
-      STAGE: all
+      STAGE: 1

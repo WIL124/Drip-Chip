@@ -12,14 +12,13 @@
 //class AreaServiceTest {
 //    @Autowired
 //    AreaService areaService;
-//
 //    @Test
 //    void create() {
 //        ArrayList<AreaPointDto> list = new ArrayList<>(){};
-//        list.add(new AreaPointDto(-80.0, -180.0));
-//        list.add(new AreaPointDto(-79.0, -180.0));
-//        list.add(new AreaPointDto(-79.0, -179.0));
-//        AreaDto areaDto = areaService.create(new AreaDto(null, "best", list));
+//        list.add(new AreaPointDto(-82.0, -180.0));
+//        list.add(new AreaPointDto(-81.0, -180.0));
+//        list.add(new AreaPointDto(-81.0, -179.0));
+//        AreaDto areaDto = areaService.create(new AreaDto(null, "best1", list));
 //        System.out.println(" ");
 //    }
 //}
