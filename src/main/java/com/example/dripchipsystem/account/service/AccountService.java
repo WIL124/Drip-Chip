@@ -3,6 +3,7 @@ package com.example.dripchipsystem.account.service;
 import com.example.dripchipsystem.account.dto.AccountDto;
 import com.example.dripchipsystem.account.mapper.AccountMapper;
 import com.example.dripchipsystem.account.model.Account;
+import com.example.dripchipsystem.account.model.Role;
 import com.example.dripchipsystem.account.repository.AccountRepository;
 import com.example.dripchipsystem.common.service.AbstractService;
 import com.example.dripchipsystem.common.service.CommonService;
@@ -24,6 +25,10 @@ public class AccountService
 
     public AccountService(AccountRepository repository, AccountMapper accountMapper) {
         super(repository, accountMapper);
+    }
+    public AccountDto register(AccountDto accountDto){
+        accountDto.setRole(Role.USER.getName());
+        return super.create(accountDto);
     }
 
     public List<AccountDto> search(String firstName, String lastName, String email, int from, int size) {

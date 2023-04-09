@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 
 @Service
 public class AreaService extends AbstractService<Area, AreaRepository, AreaMapper, AreaDto> {
@@ -22,6 +24,10 @@ public class AreaService extends AbstractService<Area, AreaRepository, AreaMappe
     @Override
     public AreaDto create(AreaDto dto) {
         if (!areaValidator.isValidAreaPoints(dto.getAreaPoints())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        List<Area> areas = repository.findAll();
+        if (areaValidator.hasIntersections(dto.getAreaPoints(), areas)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         return super.create(dto);

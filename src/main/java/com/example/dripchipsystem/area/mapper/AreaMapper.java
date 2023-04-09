@@ -38,6 +38,6 @@ public class AreaMapper implements Mapper<Area, AreaDto> {
 
     @Override
     public void updateEntityFromDto(Area entity, AreaDto dto) {
-
+        entity.setName(dto.getName());
     }
 }

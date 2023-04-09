@@ -18,6 +18,6 @@ public class RegistrationEndpoint extends AbstractEndpoint<AccountService, Accou
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AccountDto registration(@RequestBody @Valid AccountDto registerDto) {
-        return service.create(registerDto);
+        return service.register(registerDto);
     }
 }
