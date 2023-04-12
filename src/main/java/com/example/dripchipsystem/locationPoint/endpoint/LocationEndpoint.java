@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.security.NoSuchAlgorithmException;
 
 @RestController
 @RequestMapping("/locations")
@@ -40,5 +41,25 @@ public class LocationEndpoint
     @DeleteMapping("/{id}")
     public void delete(@PathVariable @NotNull @Positive Long id) {
         service.delete(id);
+    }
+    @GetMapping
+    public Long getByCoordinates(@RequestParam(name = "longitude") Double longitude,
+                                             @RequestParam(name = "latitude") Double latitude){
+        return service.getIdByCoordinates(latitude, longitude);
+    }
+    @GetMapping("/geohash")
+    public String getGeoHash(@RequestParam(name = "longitude") Double longitude,
+                             @RequestParam(name = "latitude") Double latitude){
+        return service.getGeoHash(latitude, longitude);
+    }
+    @GetMapping("/geohashv2")
+    public String getGeoHashV2(@RequestParam(name = "longitude") Double longitude,
+                             @RequestParam(name = "latitude") Double latitude){
+        return service.getGeoHashV2(latitude, longitude);
+    }
+    @GetMapping("/geohashv3")
+    public String getGeoHashV3(@RequestParam(name = "longitude") Double longitude,
+                               @RequestParam(name = "latitude") Double latitude) throws NoSuchAlgorithmException {
+        return service.getGeoHashV3(latitude, longitude);
     }
 }
