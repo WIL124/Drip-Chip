@@ -3,6 +3,7 @@ package com.example.dripchipsystem.area.service;
 import com.example.dripchipsystem.area.dto.AreaPointDto;
 import com.example.dripchipsystem.area.model.Area;
 import com.example.dripchipsystem.area.model.AreaPoint;
+import com.example.dripchipsystem.locationPoint.model.LocationPoint;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LinearRing;
@@ -10,9 +11,11 @@ import org.locationtech.jts.geom.Polygon;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
-public class AreaValidator {
+public class AreaAnalyser {
     private final GeometryFactory geometryFactory = new GeometryFactory();
 
     public boolean isValidAreaPoints(List<AreaPointDto> areaPoints) {
@@ -45,6 +48,16 @@ public class AreaValidator {
                         entryPolygon.contains(polygon) ||
                         entryPolygon.crosses(polygon) ||
                         entryPolygon.overlaps(polygon));
+    }
+    public Set<LocationPoint> pointsInArea(Area area, List<LocationPoint> points){
+        List<AreaPoint> areaPoints = area.getAreaPoints();
+        areaPoints.add(areaPoints.get(0));
+        Coordinate[] coordinates = getCoordinatesFromPoints(areaPoints);
+        areaPoints.remove(areaPoints.size() - 1);
+        Polygon polygon = geometryFactory.createPolygon(coordinates);
+        return points.stream()
+                .filter(point -> polygon.contains(geometryFactory.createPoint(new Coordinate(point.getLongitude(), point.getLatitude()))))
+                .collect(Collectors.toSet());
     }
 
     private boolean isValidAreaPoints(Coordinate[] coordinates) {
