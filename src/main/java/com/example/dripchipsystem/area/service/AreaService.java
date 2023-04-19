@@ -14,6 +14,7 @@ import com.example.dripchipsystem.locationPoint.model.LocationPoint;
 import com.example.dripchipsystem.locationPoint.repository.LocationRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
@@ -46,6 +47,7 @@ public class AreaService extends AbstractService<Area, AreaRepository, AreaMappe
         return super.create(dto);
     }
 
+    @Transactional
     public AreaAnalytics getAreaAnalytics(Long areaId, LocalDate startDate, LocalDate endDate) {
         checkDatesOrThrow(startDate, endDate);
         Area area = getEntityOrThrow(areaId, repository);
@@ -72,11 +74,13 @@ public class AreaService extends AbstractService<Area, AreaRepository, AreaMappe
         for (Animal animal : intersection) {
             boolean arrive = isArrived(animal, locationsInArea, startDate, endDate);
             boolean gone = isGone(animal, locationsInArea, startDate, endDate);
+            LocationPoint lastPoint = animal.getLastVisit() == null ? animal.getChippingLocation() : animal.getLastVisit().getLocationPoint();
+            boolean quantity = locationsInArea.contains(lastPoint);
             for (AnimalType type : animal.getAnimalTypes()) {
-                map.merge(type, new AnimalsAnalytics(type.getType(), type.getId(), 1L, arrive ? 1L : 0L, gone ? 1L : 0L),
+                map.merge(type, new AnimalsAnalytics(type.getType(), type.getId(), quantity ? 1L : 0L, arrive ? 1L : 0L, gone ? 1L : 0L),
                         AnimalsAnalytics::sum);
             }
-            totalQuantity += 1;
+            totalQuantity += quantity ? 1L : 0L;
             totalArrived += arrive ? 1L : 0L;
             totalGone += gone ? 1L : 0L;
         }
@@ -94,23 +98,14 @@ public class AreaService extends AbstractService<Area, AreaRepository, AreaMappe
                 .filter(endFilter(endDate))
                 .sorted(Comparator.comparingLong(AnimalVisitedLocation::getId))
                 .toList();
-        //находилось только внутри зоны или в ней родилось
-        boolean isAllVisitsInArea = sortedByVisitsList.stream()
-                .allMatch(visits -> locationPointsInArea.contains(visits.getLocationPoint()));
-        if (isAllVisitsInArea) return false;
 
-        boolean isChippedInAreaBetweenDates = locationPointsInArea.contains(animal.getChippingLocation())
-                && (animal.getChippingDateTime().toLocalDateTime().isBefore(endDate.atStartOfDay())
-                || animal.getChippingDateTime().toLocalDateTime().isAfter(startDate.atTime(LocalTime.MAX)));
-
-        //Чипировано не в зоне, но тогда бы животное не попало бы в метод
-        if (!isChippedInAreaBetweenDates) return true;
-        for (int i = 0; i < sortedByVisitsList.size() - 1; i++) {
-            AnimalVisitedLocation previous = sortedByVisitsList.get(i);
-            AnimalVisitedLocation next = sortedByVisitsList.get(i + 1);
-            if (!locationPointsInArea.contains(previous.getLocationPoint()) && locationPointsInArea.contains(next.getLocationPoint())){
+        LocationPoint previous = animal.getChippingLocation();
+        for (AnimalVisitedLocation animalVisitedLocation : sortedByVisitsList) {
+            LocationPoint next = animalVisitedLocation.getLocationPoint();
+            if (!locationPointsInArea.contains(previous) && locationPointsInArea.contains(next)) {
                 return true;
             }
+            previous = next;
         }
         return false;
     }
@@ -121,23 +116,13 @@ public class AreaService extends AbstractService<Area, AreaRepository, AreaMappe
                 .filter(endFilter(endDate))
                 .sorted(Comparator.comparingLong(AnimalVisitedLocation::getId))
                 .toList();
-        boolean isChippedInAreaBetweenDates = locationPointsInArea.contains(animal.getChippingLocation())
-                && (animal.getChippingDateTime().toLocalDateTime().isBefore(endDate.atStartOfDay())
-                || animal.getChippingDateTime().toLocalDateTime().isAfter(startDate.atTime(LocalTime.MAX)));
-        //находилось только внутри зоны или в ней родилось
-        boolean isAllVisitsInArea = sortedByVisitsList.stream()
-                .allMatch(visits -> locationPointsInArea.contains(visits.getLocationPoint()));
-        if (isAllVisitsInArea && isChippedInAreaBetweenDates) return false;
-
-
-        //Чипировано не в зоне, но тогда бы животное не попало бы в метод
-        if (!isChippedInAreaBetweenDates && isAllVisitsInArea) return true;
-        for (int i = 0; i < sortedByVisitsList.size() - 1; i++) {
-            AnimalVisitedLocation previous = sortedByVisitsList.get(i);
-            AnimalVisitedLocation next = sortedByVisitsList.get(i + 1);
-            if (!locationPointsInArea.contains(previous.getLocationPoint()) && locationPointsInArea.contains(next.getLocationPoint())){
+        LocationPoint previous = animal.getChippingLocation();
+        for (AnimalVisitedLocation animalVisitedLocation : sortedByVisitsList) {
+            LocationPoint next = animalVisitedLocation.getLocationPoint();
+            if (locationPointsInArea.contains(previous) && !locationPointsInArea.contains(next)) {
                 return true;
             }
+            previous = next;
         }
         return false;
     }

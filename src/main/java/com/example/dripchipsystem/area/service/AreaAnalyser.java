@@ -38,7 +38,7 @@ public class AreaAnalyser {
                     List<AreaPoint> points = area.getAreaPoints();
                     points.add(points.get(0));
                     Coordinate[] coord = getCoordinatesFromPoints(points);
-                    points.remove(points.size() -1 );
+                    points.remove(points.size() - 1);
                     return coord;
                 })
                 .map(geometryFactory::createPolygon)
@@ -49,14 +49,15 @@ public class AreaAnalyser {
                         entryPolygon.crosses(polygon) ||
                         entryPolygon.overlaps(polygon));
     }
-    public Set<LocationPoint> pointsInArea(Area area, List<LocationPoint> points){
+
+    public Set<LocationPoint> pointsInArea(Area area, List<LocationPoint> points) {
         List<AreaPoint> areaPoints = area.getAreaPoints();
         areaPoints.add(areaPoints.get(0));
         Coordinate[] coordinates = getCoordinatesFromPoints(areaPoints);
         areaPoints.remove(areaPoints.size() - 1);
         Polygon polygon = geometryFactory.createPolygon(coordinates);
         return points.stream()
-                .filter(point -> polygon.contains(geometryFactory.createPoint(new Coordinate(point.getLongitude(), point.getLatitude()))))
+                .filter(point -> polygon.intersects(geometryFactory.createPoint(new Coordinate(point.getLongitude(), point.getLatitude()))))
                 .collect(Collectors.toSet());
     }
 
