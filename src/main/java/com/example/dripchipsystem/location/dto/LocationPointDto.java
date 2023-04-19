@@ -1,4 +1,4 @@
-package com.example.dripchipsystem.locationPoint.dto;
+package com.example.dripchipsystem.location.dto;
 
 import com.example.dripchipsystem.common.dto.AbstractDto;
 import com.fasterxml.jackson.annotation.JsonProperty;

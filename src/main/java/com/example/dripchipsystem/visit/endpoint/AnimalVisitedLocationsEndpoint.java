@@ -1,9 +1,9 @@
-package com.example.dripchipsystem.animalVisitedLocation.endpoint;
+package com.example.dripchipsystem.visit.endpoint;
 
-import com.example.dripchipsystem.animalVisitedLocation.dto.UpdateVisitedLocationRequest;
-import com.example.dripchipsystem.animalVisitedLocation.dto.AnimalVisitedLocationDto;
+import com.example.dripchipsystem.visit.dto.UpdateVisitedLocationRequest;
+import com.example.dripchipsystem.visit.dto.AnimalVisitedLocationDto;
 import com.example.dripchipsystem.common.endpoint.AbstractEndpoint;
-import com.example.dripchipsystem.animalVisitedLocation.service.AnimalVisitedLocationsService;
+import com.example.dripchipsystem.visit.service.AnimalVisitedLocationsService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;

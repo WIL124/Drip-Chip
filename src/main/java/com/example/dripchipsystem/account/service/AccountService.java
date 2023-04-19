@@ -26,7 +26,8 @@ public class AccountService
     public AccountService(AccountRepository repository, AccountMapper accountMapper) {
         super(repository, accountMapper);
     }
-    public AccountDto register(AccountDto accountDto){
+
+    public AccountDto register(AccountDto accountDto) {
         accountDto.setRole(Role.USER.getName());
         return super.create(accountDto);
     }

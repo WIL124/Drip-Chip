@@ -1,12 +1,12 @@
-package com.example.dripchipsystem.locationPoint.service;
+package com.example.dripchipsystem.location.service;
 
 import ch.hsr.geohash.GeoHash;
 import com.example.dripchipsystem.common.service.AbstractService;
 import com.example.dripchipsystem.common.service.CommonService;
-import com.example.dripchipsystem.locationPoint.dto.LocationPointDto;
-import com.example.dripchipsystem.locationPoint.mapper.LocationPointMapper;
-import com.example.dripchipsystem.locationPoint.model.LocationPoint;
-import com.example.dripchipsystem.locationPoint.repository.LocationRepository;
+import com.example.dripchipsystem.location.dto.LocationPointDto;
+import com.example.dripchipsystem.location.mapper.LocationPointMapper;
+import com.example.dripchipsystem.location.model.LocationPoint;
+import com.example.dripchipsystem.location.repository.LocationRepository;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

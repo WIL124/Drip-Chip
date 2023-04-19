@@ -1,8 +1,8 @@
-package com.example.dripchipsystem.animalVisitedLocation.mapper;
+package com.example.dripchipsystem.visit.mapper;
 
-import com.example.dripchipsystem.animalVisitedLocation.dto.AnimalVisitedLocationDto;
+import com.example.dripchipsystem.visit.dto.AnimalVisitedLocationDto;
 import com.example.dripchipsystem.common.mapper.Mapper;
-import com.example.dripchipsystem.animalVisitedLocation.model.AnimalVisitedLocation;
+import com.example.dripchipsystem.visit.model.AnimalVisitedLocation;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;

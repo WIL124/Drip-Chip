@@ -8,7 +8,7 @@ import com.example.dripchipsystem.animal.model.LifeStatus;
 import com.example.dripchipsystem.animalType.repository.AnimalTypeRepository;
 import com.example.dripchipsystem.common.mapper.Mapper;
 import com.example.dripchipsystem.common.model.AbstractEntity;
-import com.example.dripchipsystem.locationPoint.repository.LocationRepository;
+import com.example.dripchipsystem.location.repository.LocationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

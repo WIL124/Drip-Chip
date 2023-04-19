@@ -1,15 +1,15 @@
-package com.example.dripchipsystem.animalVisitedLocation.service;
+package com.example.dripchipsystem.visit.service;
 
-import com.example.dripchipsystem.animalVisitedLocation.dto.UpdateVisitedLocationRequest;
-import com.example.dripchipsystem.animalVisitedLocation.dto.AnimalVisitedLocationDto;
-import com.example.dripchipsystem.animalVisitedLocation.mapper.AnimalVisitedLocationMapper;
+import com.example.dripchipsystem.visit.dto.UpdateVisitedLocationRequest;
+import com.example.dripchipsystem.visit.dto.AnimalVisitedLocationDto;
+import com.example.dripchipsystem.visit.mapper.AnimalVisitedLocationMapper;
 import com.example.dripchipsystem.common.model.AbstractEntity;
 import com.example.dripchipsystem.animal.model.Animal;
-import com.example.dripchipsystem.animalVisitedLocation.model.AnimalVisitedLocation;
-import com.example.dripchipsystem.locationPoint.model.LocationPoint;
+import com.example.dripchipsystem.visit.model.AnimalVisitedLocation;
+import com.example.dripchipsystem.location.model.LocationPoint;
 import com.example.dripchipsystem.animal.repository.AnimalRepository;
-import com.example.dripchipsystem.animalVisitedLocation.repository.AnimalVisitedLocationRepository;
-import com.example.dripchipsystem.locationPoint.repository.LocationRepository;
+import com.example.dripchipsystem.visit.repository.AnimalVisitedLocationRepository;
+import com.example.dripchipsystem.location.repository.LocationRepository;
 import com.example.dripchipsystem.common.service.AbstractService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

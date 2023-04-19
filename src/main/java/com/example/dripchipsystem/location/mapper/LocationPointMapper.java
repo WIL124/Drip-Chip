@@ -1,8 +1,8 @@
-package com.example.dripchipsystem.locationPoint.mapper;
+package com.example.dripchipsystem.location.mapper;
 
 import com.example.dripchipsystem.common.mapper.Mapper;
-import com.example.dripchipsystem.locationPoint.dto.LocationPointDto;
-import com.example.dripchipsystem.locationPoint.model.LocationPoint;
+import com.example.dripchipsystem.location.dto.LocationPointDto;
+import com.example.dripchipsystem.location.model.LocationPoint;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,12 +1,12 @@
 package com.example.dripchipsystem.animal.endpoint;
 
-import com.example.dripchipsystem.animal.dto.AnimalUpdateRequest;
-import com.example.dripchipsystem.animalType.dto.UpdateAnimalTypeRequest;
 import com.example.dripchipsystem.animal.dto.AnimalDto;
-import com.example.dripchipsystem.common.endpoint.AbstractEndpoint;
+import com.example.dripchipsystem.animal.dto.AnimalUpdateRequest;
 import com.example.dripchipsystem.animal.model.Gender;
 import com.example.dripchipsystem.animal.model.LifeStatus;
 import com.example.dripchipsystem.animal.service.AnimalService;
+import com.example.dripchipsystem.animalType.dto.UpdateAnimalTypeRequest;
+import com.example.dripchipsystem.common.endpoint.AbstractEndpoint;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;

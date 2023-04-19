@@ -1,7 +1,7 @@
-package com.example.dripchipsystem.locationPoint.model;
+package com.example.dripchipsystem.location.model;
 
 import com.example.dripchipsystem.animal.model.Animal;
-import com.example.dripchipsystem.animalVisitedLocation.model.AnimalVisitedLocation;
+import com.example.dripchipsystem.visit.model.AnimalVisitedLocation;
 import com.example.dripchipsystem.common.model.AbstractEntity;
 import lombok.*;
 

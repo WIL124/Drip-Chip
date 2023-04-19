@@ -1,4 +1,4 @@
-package com.example.dripchipsystem.animalVisitedLocation.dto;
+package com.example.dripchipsystem.visit.dto;
 
 import lombok.Data;
 

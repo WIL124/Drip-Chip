@@ -1,87 +1,121 @@
 package com.example.dripchipsystem.area.service;
 
-import com.example.dripchipsystem.area.dto.AreaPointDto;
+import com.example.dripchipsystem.animal.model.Animal;
+import com.example.dripchipsystem.animalType.model.AnimalType;
+import com.example.dripchipsystem.visit.model.AnimalVisitedLocation;
+import com.example.dripchipsystem.area.dto.AnimalsAnalytics;
+import com.example.dripchipsystem.area.dto.AreaAnalytics;
 import com.example.dripchipsystem.area.model.Area;
-import com.example.dripchipsystem.area.model.AreaPoint;
-import com.example.dripchipsystem.locationPoint.model.LocationPoint;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.LinearRing;
-import org.locationtech.jts.geom.Polygon;
-import org.springframework.stereotype.Component;
+import com.example.dripchipsystem.location.model.LocationPoint;
+import lombok.AllArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@Component
+@AllArgsConstructor
 public class AreaAnalyser {
-    private final GeometryFactory geometryFactory = new GeometryFactory();
+    private final Area area;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
+    private final AreaValidator areaValidator;
+    private final List<LocationPoint> allPoints;
 
-    public boolean isValidAreaPoints(List<AreaPointDto> areaPoints) {
-        areaPoints.add(areaPoints.get(0));
-        Coordinate[] areaCoordinates = getCoordinates(areaPoints);
-        if (!isValidAreaPoints(areaCoordinates)) {
-            return false;
+    @Transactional
+    public AreaAnalytics analyse() {
+        Set<LocationPoint> locationsInArea = getAllPointsInArea(area);
+        if (locationsInArea.size() == 0) {
+            return AreaAnalytics.EMPTY;
         }
-        areaPoints.remove(areaPoints.size() - 1);
-        return true;
+        Set<Animal> chippedAnimals = getAnimalsChippedInPointsBetweenDates(locationsInArea, startDate, endDate);
+        Set<Animal> animalsArrivedOrGone = getAnimalsWhoVisitsPointsBetweenDates(locationsInArea, startDate, endDate);
+        Set<Animal> intersection = new HashSet<>();
+        intersection.addAll(chippedAnimals);
+        intersection.addAll(animalsArrivedOrGone);
+
+        Map<AnimalType, AnimalsAnalytics> map = new HashMap<>();
+        long totalQuantity = 0L;
+        long totalGone = 0L;
+        long totalArrived = 0L;
+        for (Animal animal : intersection) {
+            List<LocationPoint> sortedByVisitsList = getSortedByVisitTimeLocationPoints(animal);
+            boolean arrive = isArrived(animal, locationsInArea, sortedByVisitsList);
+            boolean gone = isGone(animal, locationsInArea, sortedByVisitsList);
+            LocationPoint lastPoint = animal.getLastVisit() == null ? animal.getChippingLocation() : animal.getLastVisit().getLocationPoint();
+            boolean quantity = locationsInArea.contains(lastPoint);
+            for (AnimalType type : animal.getAnimalTypes()) {
+                map.merge(type, new AnimalsAnalytics(type.getType(), type.getId(), quantity ? 1L : 0L, arrive ? 1L : 0L, gone ? 1L : 0L),
+                        AnimalsAnalytics::sum);
+            }
+            totalQuantity += quantity ? 1L : 0L;
+            totalArrived += arrive ? 1L : 0L;
+            totalGone += gone ? 1L : 0L;
+        }
+        List<AnimalsAnalytics> animalsAnalytics = new ArrayList<>(map.values());
+        return new AreaAnalytics(totalQuantity, totalArrived, totalGone, animalsAnalytics);
     }
 
-    public boolean hasIntersections(List<AreaPointDto> areaPoints, List<Area> existsAreas) {
-        areaPoints.add(areaPoints.get(0));
-        Coordinate[] coordinates = getCoordinates(areaPoints);
-        areaPoints.remove(areaPoints.size() - 1);
-        Polygon polygon = geometryFactory.createPolygon(coordinates);
-        List<Polygon> polygonList = existsAreas.stream()
-                .map(area -> {
-                    List<AreaPoint> points = area.getAreaPoints();
-                    points.add(points.get(0));
-                    Coordinate[] coord = getCoordinatesFromPoints(points);
-                    points.remove(points.size() - 1);
-                    return coord;
-                })
-                .map(geometryFactory::createPolygon)
+    private Set<LocationPoint> getAllPointsInArea(Area area) {
+        return areaValidator.pointsInArea(area, allPoints);
+    }
+
+
+    private boolean isArrived(Animal animal, Set<LocationPoint> locationPointsInArea, List<LocationPoint> sortedByVisitsList) {
+        LocationPoint previous = animal.getChippingLocation();
+        for (LocationPoint locationPoint : sortedByVisitsList) {
+            if (!locationPointsInArea.contains(previous) && locationPointsInArea.contains(locationPoint)) {
+                return true;
+            }
+            previous = locationPoint;
+        }
+        return false;
+    }
+
+    private boolean isGone(Animal animal, Set<LocationPoint> locationPointsInArea, List<LocationPoint> sortedByVisitsList) {
+        LocationPoint previous = animal.getChippingLocation();
+        for (LocationPoint locationPoint : sortedByVisitsList) {
+            if (locationPointsInArea.contains(previous) && !locationPointsInArea.contains(locationPoint)) {
+                return true;
+            }
+            previous = locationPoint;
+        }
+        return false;
+    }
+
+    private List<LocationPoint> getSortedByVisitTimeLocationPoints(Animal animal) {
+        return animal.getVisitedLocations().stream()
+                .filter(startFilter(startDate))
+                .filter(endFilter(endDate))
+                .sorted(Comparator.comparingLong(AnimalVisitedLocation::getId))
+                .map(AnimalVisitedLocation::getLocationPoint)
                 .toList();
-        return polygonList.stream().anyMatch(entryPolygon ->
-                entryPolygon.within(polygon) ||
-                        entryPolygon.contains(polygon) ||
-                        entryPolygon.crosses(polygon) ||
-                        entryPolygon.overlaps(polygon));
     }
 
-    public Set<LocationPoint> pointsInArea(Area area, List<LocationPoint> points) {
-        List<AreaPoint> areaPoints = area.getAreaPoints();
-        areaPoints.add(areaPoints.get(0));
-        Coordinate[] coordinates = getCoordinatesFromPoints(areaPoints);
-        areaPoints.remove(areaPoints.size() - 1);
-        Polygon polygon = geometryFactory.createPolygon(coordinates);
-        return points.stream()
-                .filter(point -> polygon.intersects(geometryFactory.createPoint(new Coordinate(point.getLongitude(), point.getLatitude()))))
+    private Set<Animal> getAnimalsChippedInPointsBetweenDates(Set<LocationPoint> locationsInArea, LocalDate startDate, LocalDate endDate) {
+        return locationsInArea.stream()
+                .flatMap(location -> location.getChippedAnimals().stream())
+                .filter(animal -> animal.getChippingDateTime().toLocalDateTime().isBefore(endDate.atStartOfDay()))
+                .filter(animal -> animal.getChippingDateTime().toLocalDateTime().isAfter(startDate.atTime(LocalTime.MAX)))
                 .collect(Collectors.toSet());
     }
 
-    private boolean isValidAreaPoints(Coordinate[] coordinates) {
-        LinearRing linearRing;
-        try {
-            linearRing = geometryFactory.createLinearRing(coordinates);
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-        return linearRing.isValid();
+    private Set<Animal> getAnimalsWhoVisitsPointsBetweenDates(Set<LocationPoint> locationsInArea, LocalDate startDate, LocalDate endDate) {
+        return locationsInArea.stream()
+                .flatMap(location -> location.getVisitedLocations().stream())
+                .filter(endFilter(endDate))
+                .filter(startFilter(startDate))
+                .map(AnimalVisitedLocation::getAnimal)
+                .collect(Collectors.toSet());
     }
 
-    private Coordinate[] getCoordinates(List<AreaPointDto> areaPoints) {
-        return areaPoints.stream()
-                .map(point -> new Coordinate(point.getX(), point.getY()))
-                .toList()
-                .toArray(new Coordinate[0]);
+    private Predicate<AnimalVisitedLocation> startFilter(LocalDate startDate) {
+        return visitedLocation -> visitedLocation.getDateTimeOfVisitLocationPoint().toLocalDateTime().isAfter(startDate.atTime(LocalTime.MAX));
     }
 
-    private Coordinate[] getCoordinatesFromPoints(List<AreaPoint> areaPoints) {
-        return areaPoints.stream()
-                .map(point -> new Coordinate(point.getX(), point.getY()))
-                .toList()
-                .toArray(new Coordinate[0]);
+    private Predicate<AnimalVisitedLocation> endFilter(LocalDate endDate) {
+        return visitedLocation -> visitedLocation.getDateTimeOfVisitLocationPoint().toLocalDateTime().isBefore(endDate.atStartOfDay());
     }
 }

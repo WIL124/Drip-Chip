@@ -3,10 +3,8 @@ package com.example.dripchipsystem.account.model;
 import com.example.dripchipsystem.animal.model.Animal;
 import com.example.dripchipsystem.common.model.AbstractEntity;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,8 +12,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -32,6 +34,7 @@ public class Account extends AbstractEntity implements UserDetails {
     private String password;
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "chipper_id")
+    @ToString.Exclude
     private List<Animal> chippedAnimals;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -69,5 +72,18 @@ public class Account extends AbstractEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Account account = (Account) o;
+        return getId() != null && Objects.equals(getId(), account.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

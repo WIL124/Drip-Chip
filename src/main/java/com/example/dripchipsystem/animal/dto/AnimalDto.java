@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -37,7 +35,6 @@ public class AnimalDto extends AbstractDto {
     private Gender gender;
     private LifeStatus lifeStatus = LifeStatus.ALIVE;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-//    @Temporal(TemporalType.TIMESTAMP)
     private OffsetDateTime chippingDateTime;
     @NotNull
     @Positive

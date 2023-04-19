@@ -2,18 +2,16 @@ package com.example.dripchipsystem.animal.model;
 
 import com.example.dripchipsystem.account.model.Account;
 import com.example.dripchipsystem.animalType.model.AnimalType;
-import com.example.dripchipsystem.animalVisitedLocation.model.AnimalVisitedLocation;
+import com.example.dripchipsystem.visit.model.AnimalVisitedLocation;
 import com.example.dripchipsystem.common.model.AbstractEntity;
-import com.example.dripchipsystem.locationPoint.model.LocationPoint;
+import com.example.dripchipsystem.location.model.LocationPoint;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,7 +31,6 @@ public class Animal extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private LifeStatus lifeStatus = LifeStatus.ALIVE;
     @CreationTimestamp
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Timestamp chippingDateTime;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chipper_id")

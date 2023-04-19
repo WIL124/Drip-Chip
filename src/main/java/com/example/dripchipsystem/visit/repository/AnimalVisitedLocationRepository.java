@@ -1,6 +1,6 @@
-package com.example.dripchipsystem.animalVisitedLocation.repository;
+package com.example.dripchipsystem.visit.repository;
 
-import com.example.dripchipsystem.animalVisitedLocation.model.AnimalVisitedLocation;
+import com.example.dripchipsystem.visit.model.AnimalVisitedLocation;
 import com.example.dripchipsystem.common.repository.CommonRepository;
 import org.springframework.stereotype.Repository;
 

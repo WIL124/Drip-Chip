@@ -1,11 +1,10 @@
-package com.example.dripchipsystem.animalVisitedLocation.model;
+package com.example.dripchipsystem.visit.model;
 
 import com.example.dripchipsystem.animal.model.Animal;
 import com.example.dripchipsystem.common.model.AbstractEntity;
-import com.example.dripchipsystem.locationPoint.model.LocationPoint;
+import com.example.dripchipsystem.location.model.LocationPoint;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -18,7 +17,6 @@ import java.sql.Timestamp;
 @Table(name = "animal_visited_locations")
 public class AnimalVisitedLocation extends AbstractEntity {
     @CreationTimestamp
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Timestamp dateTimeOfVisitLocationPoint;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "visited_locations_id", table = "animal_visited_locations")

@@ -1,7 +1,7 @@
-package com.example.dripchipsystem.locationPoint.repository;
+package com.example.dripchipsystem.location.repository;
 
 import com.example.dripchipsystem.common.repository.CommonRepository;
-import com.example.dripchipsystem.locationPoint.model.LocationPoint;
+import com.example.dripchipsystem.location.model.LocationPoint;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

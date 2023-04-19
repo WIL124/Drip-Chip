@@ -69,12 +69,3 @@ create table area_point
     area_id BIGINT,
     foreign key (area_id) references area (id)
 );
-
--- create table area_area_points
--- (
---     area_id       BIGINT NOT NULL,
---     area_points_id BIGINT NOT NULL,
---     primary key (area_id, area_points_id),
---     foreign key (area_id) references area (id),
---     foreign key (area_points_id) references area_point (id)
--- );
